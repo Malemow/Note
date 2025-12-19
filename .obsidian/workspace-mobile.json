@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test.md",
-                "mode": "source",
+                "file": "README.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "test"
+              "title": "README"
             }
           }
         ]
@@ -112,7 +112,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "test.md",
+            "file": "README.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -168,11 +168,11 @@
   },
   "active": "2986827c75f4aa6d",
   "lastOpenFiles": [
+    "test.md",
     "Test.md",
     "assets/test/file-20251219103733408.png",
     "assets/test",
     "assets",
-    "test.md",
     "README.md"
   ]
 }
