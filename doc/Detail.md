@@ -207,11 +207,12 @@ Key capabilities:
 
 #### Mouse
 
-| Model                    | Note |
-|--------------------------|------|
-| Logitech G502 Hero       | Wired gaming mouse |
-| Logitech G703            | Wireless gaming mouse |
-| Logitech Pro Wireless    | Lightweight esports mouse |
+| Model                 | Note                      |
+| --------------------- | ------------------------- |
+| Logitech G502 Hero    | Wired gaming mouse        |
+| Logitech G703         | Wireless gaming mouse     |
+| Logitech Pro Wireless | Lightweight esports mouse |
+| Logitech G502 X Plus  | Wireless gaming mouse     |
 
 #### Keyboard
 
@@ -224,10 +225,10 @@ Key capabilities:
 
 #### Monitor
 
-| Model        | Note |
-|--------------|------|
+| Model        | Note                  |
+| ------------ | --------------------- |
 | MSI MAG322CR | Curved gaming monitor |
-| BenQ EL2870U | 4K monitor |
+| MSI G244F E2 |                       |
 
 #### Graphics Tablet
 

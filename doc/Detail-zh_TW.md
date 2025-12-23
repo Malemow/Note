@@ -206,11 +206,12 @@ Repo: https://github.com/Malemow/neovim
 
 #### 滑鼠
 
-| 型號 | 說明 |
-|------|------|
-| Logitech G502 Hero | 有線電競滑鼠 |
-| Logitech G703 | 無線電競滑鼠 |
+| 型號                    | 說明      |
+| --------------------- | ------- |
+| Logitech G502 Hero    | 有線電競滑鼠  |
+| Logitech G703         | 無線電競滑鼠  |
 | Logitech Pro Wireless | 輕量化電競滑鼠 |
+| Logitech G502 X Plus  | 無線電競滑鼠  |
 
 #### 鍵盤
 
@@ -223,10 +224,10 @@ Repo: https://github.com/Malemow/neovim
 
 #### 螢幕
 
-| 型號 | 說明 |
-|------|------|
+| 型號           | 說明     |
+| ------------ | ------ |
 | MSI MAG322CR | 曲面電競螢幕 |
-| BenQ EL2870U | 4K 螢幕 |
+| MSI G244F E2 |        |
 
 #### 繪圖板
 
