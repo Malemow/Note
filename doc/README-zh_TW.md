@@ -12,7 +12,7 @@
 我是一名以前端開發為強項，同時具備全端與基礎架構工程經驗的軟體工程師。  
 主要專注於使用 Vue / Nuxt 與 Laravel / Gin 建構現代化 Web 應用，同時也負責設計與維運穩定可靠的 home-lab 與伺服器環境。
 
-本儲存庫用於記錄我個人的開發環境、工具鏈與 IT 架構，作為長期維護與知識整理之用。
+本儲存庫（**Malemow/Note**）作為我個人的知識庫，用於長期整理開發、基礎架構與維運相關文件。
 
 除了工程與系統架構工作之外，我也是一位熱愛遊戲的玩家，特別喜歡《魔物獵人》系列。
 
@@ -84,4 +84,5 @@
 
 ## 🔗 相關連結
 
-- GitHub: https://github.com/Malemow
+- GitHub Repo: https://github.com/Malemow/Note
+- Author: https://github.com/Malemow

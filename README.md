@@ -12,7 +12,8 @@
 I am a software engineer with strong expertise in frontend development and solid experience in full-stack and infrastructure engineering.  
 My work focuses on building modern web applications with Vue/Nuxt and Laravel/Gin, while also designing and operating reliable home-lab and server environments.
 
-This repository documents my personal development setup, tooling, and IT architecture for long-term maintenance and knowledge sharing.
+This repository (**Malemow/Note**) serves as my personal knowledge base and
+long-term documentation for development, infrastructure, and operations.
 
 I am also an avid gamer, with a strong passion for the *Monster Hunter* series.
 
@@ -86,4 +87,5 @@ This repository contains detailed documentation of my personal IT environment:
 
 ## 🔗 References
 
-- GitHub: https://github.com/Malemow
+- Repository: https://github.com/Malemow/Note
+- Author: https://github.com/Malemow
