@@ -5,6 +5,7 @@
 📍 New Taipei City, Taiwan  
 🗣️ Traditional Chinese
 
+- 🌏 [繁體中文版本](doc/README-zh_TW.md)
 ---
 ## 👤 About Me
 
