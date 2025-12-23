@@ -324,4 +324,4 @@ Repo: https://github.com/Malemow/neovim
 ### 10.1 參考
 - https://github.com/Malemow
 - 各廠商官方文件
-![](assets/README/file-20251224021327852.jpg)
+![](/assets/README/file-20251224021327852.jpg)
