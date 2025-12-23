@@ -1,91 +1,328 @@
-# Nick — Software Engineer
+# Personal IT Architecture
 
-👤 Nick  
-💻 Software Engineer  
-📍 New Taipei City, Taiwan  
-🗣️ Traditional Chinese
+> Owner: Nick  Lin
+> Scope: Home-Lab & Personal Development Environment  
+> Last Updated: 2025-12-23
 
+> Security Notice:  
+> This document is intended for public sharing.  
+> Internal network details such as VLAN IDs, IP subnets, addressing schemes,
+> firewall rules, and host mappings are deliberately omitted to avoid exposing
+> sensitive infrastructure information.
+---
 - 🌏 [繁體中文版本](doc/README-zh_TW.md)
----
-## 👤 About Me
+## 1. Overview
 
-I am a software engineer with strong expertise in frontend development and solid experience in full-stack and infrastructure engineering.  
-My work focuses on building modern web applications with Vue/Nuxt and Laravel/Gin, while also designing and operating reliable home-lab and server environments.
+This document describes the architecture, tooling, and operational design of my personal IT environment.  
+The goals are:
 
-This repository (**Malemow/Note**) serves as my personal knowledge base and
-long-term documentation for development, infrastructure, and operations.
+- Provide a clear system overview
+- Enable reproducible rebuild / disaster recovery
+- Serve as long-term operations reference
+- Record major design decisions and changes
 
-I am also an avid gamer, with a strong passion for the *Monster Hunter* series.
+**Design Principles**
 
-For me, gaming is more than entertainment — it is a way to:
-- Relax after intensive engineering work
-- Appreciate complex system and gameplay design
-- Continuously care about performance, latency, and hardware tuning from a player’s perspective
-
-
----
-
-## 🧰 Skills
-
-### ⌨️ Programming Languages
-- Bash
-- Go
-- PHP
-- JavaScript / TypeScript / Bun
-- Rust
-
-### 🧱 Frameworks
-- Vue 3
-- Nuxt 3
-- Laravel 10
-- Gin
-- Fastify
-
-### 🗄️ Databases
-- SQLite
-- MySQL
-- PostgreSQL
-	- Full-Text Search (tsvector / tsquery, GIN)
-	- Vector search with pgvector (ANN, cosine similarity)
-	- Geo queries with PostGIS (distance, spatial index)
-	- JSONB storage & querying
-	- Advanced indexing (GIN, GiST, partial, expression)
-	- Query tuning (EXPLAIN ANALYZE)
-	- Extensions: pg_trgm, pgcrypto
-- Redis
-
-### 📡 Observability / Monitoring
-- Rsync / Rsyslog
-- Grafana
-	- Loki
-	- Alloy
-- Prometheus
+- Single gateway, centralized routing & security
+- Layered architecture (Network / Server / Client)
+- Automation and observability first
+- Documentation as code
 
 ---
 
-## 🧩 Focus Areas
+## 2. Network Architecture
 
-- Backend & API development
-- Infrastructure & home-lab design
-- Observability and monitoring
-- Automation & reproducible environments
-- Developer productivity tooling
+### 2.1 Topology
+
+- ISP → UniFi UDM → LAN / VLANs → Servers / Clients
+- Wi-Fi clients connect via TP-Link AX50 (AP mode)
+
+### 2.2 Network Devices
+
+#### Gateway
+- Device: UniFi UDM
+- Notes:
+	- Single L3 gateway design
+	- Centralized policy control
+
+#### Wi-Fi Access Point
+- Device: TP-Link AX50
+- Mode: Bridge / AP Mode
+- Roles:
+	- L2 wireless access only
+- Notes:
+	- Routing & DHCP disabled
+	- Avoid double NAT
+
+### 2.3 Logical Segmentation (Abstract)
+
+The internal network is logically segmented into multiple zones, such as:
+
+- Infrastructure zone
+- Server / service zone
+- Client zone
+- IoT / untrusted zone
+
+Segmentation is enforced via VLANs and firewall policies on the gateway.
+Exact VLAN IDs and subnet ranges are intentionally omitted in this document.
 
 ---
 
-## 🗂 Documentation
+## 3. Server & Services
 
-This repository contains detailed documentation of my personal IT environment:
+### 3.1 Virtualization & Storage
 
-- 📘 **[Personal IT Architecture](doc/Detail.md)**  
-  Architecture overview, tools, hardware inventory, server stack, and operations guide.
+- ESXi v8.03u
+	- vCenter v8.03u
+- TrueNAS v25.10.0.1 (Goldeye)
 
-> The architecture document is intended for long-term maintenance and public sharing,  
-> with sensitive infrastructure details deliberately omitted.
+> Role: Core infrastructure for VM management and storage.
+
+### 3.2 Core Services
+
+- Nginx — Reverse proxy
+- Grafana — Observability platform
+	- Loki — Log aggregation
+	- Alloy — Metrics / log agent
+- Line Bot — 記帳機器人
+- Jump Host — SSH entry point
+- Suwayomi — Comics Server
+- Rsync Server - Backup (Rsysnc)
+- DNS
+	- DNSDist
+	- PDNS Auth
+	- PDNS Recursor
+
+> Role: Internal services, monitoring, and secure access.
 
 ---
 
-## 🔗 References
+## 4. Client Environment
 
-- Repository: https://github.com/Malemow/Note
-- Author: https://github.com/Malemow
+### 4.1 IDE / Editor
+
+#### JetBrains Toolchain
+- WebStorm — Web / Frontend
+- RustRover — Rust
+- CLion — C / C++
+- GoLand — Golang
+- PhpStorm — PHP / Laravel
+- Rider — C# / .NET
+- DataGrip — Database management
+
+> Role: Primary full-feature IDE stack.
+
+#### Neovim (Customized)
+
+Repo: https://github.com/Malemow/neovim
+
+Key capabilities:
+- LSP & completion: `lsp.lua`, `nvim-cmp.lua`
+- Navigation & search: `telescope.lua`, `grug-far.lua`, `aerial.lua`
+- Git: `gitsigns.lua`, `lazygit.lua`
+- UI/UX: `lualine.lua`, `noice.lua`, `bufferline.lua`, `mini-*`
+- Debug: `nvim-dap.lua`
+- File explorer: `nvim-tree.lua`
+- AI assist: `claudecode.lua`
+- Tree-sitter: `treesitter.lua`
+
+> Role: Lightweight, keyboard-centric editor with deep customization.
+
+---
+
+### 4.2 Terminal Environment
+
+#### macOS
+---
+
+| Item            | Value / Tool                                    | Note                          |
+| --------------- | ----------------------------------------------- | ----------------------------- |
+| Terminal        | iTerm2                                          | Primary terminal emulator     |
+| Package Manager | Homebrew                                        | Package management            |
+| Shell           | zsh + oh-my-zsh                                 | Interactive shell framework   |
+| Theme           | Dracula Pro                                     |                               |
+| Monitor         | btop / ctop                                     | System & container monitoring |
+| File List       | eza                                             | Modern `ls` replacement       |
+| Search          | fzf / ripgrep                                   | Fuzzy finder & grep           |
+| Repo Manager    | ghq                                             | Git repository management     |
+| Config Repo     | https://github.com/Malemow/system-home/tree/mac | macOS shell config            |
+
+#### Windows
+---
+
+| Item            | Value / Tool                                        | Note                      |
+| --------------- | --------------------------------------------------- | ------------------------- |
+| Terminal        | Windows Terminal +oh-my-posh                        | Primary terminal emulator |
+| Shell           | PowerShell                                          | Default Windows shell     |
+| Theme           | Dracula Pro                                         |                           |
+| Package Manager | scoop                                               | CLI package manager       |
+| Config Repo     | https://github.com/Malemow/system-home/tree/windows | Windows shell config      |
+
+---
+
+### 4.3 Browser Extensions (Chrome)
+---
+
+| Extension        | Role / Description                |
+|------------------|----------------------------------|
+| 1Password        | Password manager                 |
+| IDM              | Download manager                 |
+| AdBlock          | Ad blocking                      |
+| MetaMask         | Web3 wallet                      |
+| Vimium           | Keyboard navigation              |
+| 沉靜式翻譯        | Translation (ChatGPT API)        |
+| 串改猴            | Userscripts manager              |
+| iCloud 書籤       | Bookmark synchronization         |
+
+> Role: Security, productivity, automation.
+
+
+---
+
+## 5. Hardware Inventory
+
+### 5.1 Workstation (Primary PC)
+---
+
+| Hardware | Model                                                                                                                                                              |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| CPU      | [Intel i5-13400 [10;16]](https://www.intel.com.tw/content/www/tw/zh/products/sku/230495/intel-core-i513400-processor-20m-cache-up-to-4-60-ghz/specifications.html) |
+| MB       | [MSI PRO B760M-A WIFI DDR4](https://tw.msi.com/Motherboard/PRO-B760M-A-WIFI-DDR4)                                                                                  |
+| RAM 1    | [Kingston kit(16GB_2) DDR4-3600(KF436C18BBK2/32)(2048_8)](https://www.kingston.com/tw/memory/gaming/kingston-fury-beast-ddr4-rgb-memory)                           |
+| RAM 2    | [Kingston kit(16GB_2) DDR4-3600(KF436C18BBK2/32)(2048_8)](https://www.kingston.com/tw/memory/gaming/kingston-fury-beast-ddr4-rgb-memory)                           |
+| GPU      | [MSI RTX4060 VENTUS 2X WHITE 8G OC[萬圖師娘限量版](2505MHz/19.9cm/雙風扇)](https://tw.msi.com/Graphics-Card/GeForce-RTX-4060-VENTUS-2X-WHITE-8G-OC-VTS)                      |
+| Cooler   | [MSI MAG CoreLiquid P240](https://tw.msi.com/Liquid-Cooling/MAG-CORELIQUID-P240)                                                                                   |
+| Case     | [Montech SKY TWO White (GPT:40;CPU:16.8)](https://www.telon.com.tw/tc/products_detail.php?nid=307)                                                                 |
+| PSU      | [SUPER FLOWER LEADEX III 750W (Gold)](https://www.super-flower.com.tw/zh-TW/products/leadex-iii-gold-750w)                                                         |
+
+### 5.2 Mac
+---
+
+| Model          | Year |
+| -------------- | ---- |
+| MacBook Air M1 | 2020 |
+
+### 5.3 Peripherals
+---
+#### Input Devices
+
+| Type | Model | Description |
+|------|-------|-------------|
+| Mouse | Logitech G502 Hero | Wired gaming mouse |
+| Mouse | Logitech G703 | Wireless gaming mouse |
+| Mouse | Logitech Pro Wireless | Lightweight gaming mouse |
+| Mouse | Logitech G502 X Plus | Wireless gaming mouse |
+| Keyboard | HHKB Hybrid Type-S (Snow) | 60%, Topre, silent |
+| Keyboard | HHKB Hybrid Type-S (White) | 60%, Topre, silent |
+| Keyboard | Logitech G913 White | Low-profile, wireless |
+| Keyboard | Logitech G915 White | Low-profile, wireless |
+| Pen Tablet | Wacom One (2017) | Entry-level pen tablet |
+| Pen Display | Wacom Cintiq 16 | Pen display |
+
+#### Displays
+
+| Model | Description |
+|-------|-------------|
+| MSI MAG322CR | Curved gaming monitor |
+| MSI G244F E2 |  |
+
+#### Audio Devices
+
+| Type       | Model           | Description                           |
+| ---------- | --------------- | ------------------------------------- |
+| Speakers   | Edifier MR5BT   | Active bookshelf speakers, Bluetooth  |
+| Headset    | Logitech G733   | Wireless gaming headset with mic, RGB |
+| Microphone | AVerMedia AM310 | USB condenser desktop microphone      |
+
+#### Video Devices
+
+| Type   | Model                   | Description     |
+| ------ | ----------------------- | --------------- |
+| Webcam | Logitech C270 HD Webcam | 720p USB webcam |
+
+### 5.4 Phone
+---
+
+| Model                  | Storage | Color |
+|------------------------|---------|--------|
+| iPhone 12              | 128G    | White  |
+| iPhone 16              | 256G    | Teal   |
+
+---
+
+## 6. Software Stack
+
+### macOS
+---
+
+| Software  | Role / Description                    |
+|-----------|---------------------------------------|
+| Raycast   | Launcher / automation                 |
+| Warp      | Modern terminal                       |
+| DeepL     | Translation                           |
+| CyberDuck | SFTP / cloud browser                  |
+| Fork      | Git GUI client                        |
+| Buho      | System cleanup / maintenance          |
+| Grid      | Window management / tiling            |
+
+### Windows
+---
+
+| Software          | Role / Description                |
+|-------------------|----------------------------------|
+| IDM               | Download manager                 |
+| AquaSnap          | Window tiling / snapping         |
+| Wallpaper Engine  | Desktop enhancement              |
+| PowerToys         | Windows productivity utilities   |
+| MSI CPU-Z         | Hardware information / monitor   |
+| AIDA64            | System diagnostics / benchmark   |
+
+---
+
+## 7. Note & Knowledge Management
+
+- HackMD — Main architecture & ops documentation
+- Obsidian — Knowledge base & personal notes
+	- Repo: https://github.com/Malemow/Note
+
+> Strategy: Draft and share on HackMD, archive and expand in Obsidian.
+
+---
+
+## 8. Operations Guide
+
+### 8.1 General Principles
+- Prefer automation and reproducibility
+- All changes should be documented
+- Backup before major upgrades
+
+### 8.2 Add New Service Checklist
+- Define role & owner
+- Allocate VM / container
+- Assign IP / DNS
+- Add monitoring
+- Update documentation
+
+### 8.3 Upgrade Flow (Infra)
+1. Snapshot / backup
+2. Test on non-critical system
+3. Perform upgrade
+4. Validate services
+5. Update change log
+
+---
+
+## 9. Change Log
+
+| Date       | Component | Change Description |
+|------------|-----------|--------------------|
+| 2025-12-23 | Document  | Initial architecture draft |
+
+---
+
+## 10. Appendix
+
+### 10.1 References
+- https://github.com/Malemow
+- Vendor official documentation
+![](assets/Detail/file-20251223225121015.jpg)
