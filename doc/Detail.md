@@ -152,11 +152,11 @@ Key capabilities:
 
 | Item            | Value / Tool                                        | Note                      |
 | --------------- | --------------------------------------------------- | ------------------------- |
-| Terminal        | Windows Terminal                                    | Primary terminal emulator |
+| Terminal        | Windows Terminal + oh-my-posh                       | Primary terminal emulator |
 | Shell           | PowerShell                                          | Default Windows shell     |
 | Theme           | Dracula Pro                                         |                           |
 | Package Manager | scoop                                               | CLI package manager       |
-| Prompt          | oh-my-posh                                          | Prompt theming engine     |
+| Prompt          |                                                     | Prompt theming engine     |
 | Config Repo     | https://github.com/Malemow/system-home/tree/windows | Windows shell config      |
 
 ---
