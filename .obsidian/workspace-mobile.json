@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "doc/Detail-zh_TW.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Detail-zh_TW"
             }
           }
         ]
@@ -180,11 +180,12 @@
   },
   "active": "2986827c75f4aa6d",
   "lastOpenFiles": [
+    "doc/README-zh_TW.md",
+    "README.md",
     "test.md",
     "Test.md",
     "assets/test/file-20251219103733408.png",
     "assets/test",
-    "assets",
-    "README.md"
+    "assets"
   ]
 }
