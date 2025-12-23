@@ -14,6 +14,12 @@
 
 本儲存庫用於記錄我個人的開發環境、工具鏈與 IT 架構，作為長期維護與知識整理之用。
 
+除了工程與系統架構工作之外，我也是一位熱愛遊戲的玩家，特別喜歡《魔物獵人》系列。
+
+對我而言，遊戲不只是娛樂，更是一種方式：
+- 在高強度的開發與維運工作後放鬆身心
+- 欣賞複雜的系統設計與遊戲機制
+- 從玩家角度持續關注效能、延遲與硬體調校
 ---
 
 ## 🧰 技能
@@ -36,20 +42,20 @@
 - SQLite
 - MySQL
 - PostgreSQL
-  - 全文搜尋（tsvector / tsquery，GIN 索引）
-  - 向量搜尋（pgvector：ANN、cosine similarity）
-  - 地理資訊查詢（PostGIS：距離、空間索引）
-  - JSONB 儲存與查詢
-  - 進階索引（GIN、GiST、partial、expression）
-  - 查詢效能調校（EXPLAIN ANALYZE）
-  - 擴充套件：pg_trgm、pgcrypto
+	- 全文搜尋（tsvector / tsquery，GIN 索引）
+	- 向量搜尋（pgvector：ANN、cosine similarity）
+	- 地理資訊查詢（PostGIS：距離、空間索引）
+	- JSONB 儲存與查詢
+	- 進階索引（GIN、GiST、partial、expression）
+	- 查詢效能調校（EXPLAIN ANALYZE）
+	- 擴充套件：pg_trgm、pgcrypto
 - Redis
 
 ### 📡 可觀測性 / 監控
 - Rsync / Rsyslog
 - Grafana
-  - Loki
-  - Alloy
+	- Loki
+	- Alloy
 - Prometheus
 
 ---

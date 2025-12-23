@@ -42,17 +42,17 @@ The goals are:
 #### Gateway
 - Device: UniFi UDM
 - Notes:
-  - Single L3 gateway design
-  - Centralized policy control
+	- Single L3 gateway design
+	- Centralized policy control
 
 #### Wi-Fi Access Point
 - Device: TP-Link AX50
 - Mode: Bridge / AP Mode
 - Roles:
-  - L2 wireless access only
+	- L2 wireless access only
 - Notes:
-  - Routing & DHCP disabled
-  - Avoid double NAT
+	- Routing & DHCP disabled
+	- Avoid double NAT
 
 ### 2.3 Logical Segmentation (Abstract)
 
@@ -228,11 +228,11 @@ Key capabilities:
 
 #### Audio Devices
 
-| Type | Model | Description |
-|------|-------|-------------|
-| Speakers | Edifier MR5BT | Active bookshelf speakers, Bluetooth |
-| Headset | Logitech G733 | Wireless gaming headset with mic, RGB |
-| Microphone | AVerMedia AM310 | USB condenser desktop microphone |
+| Type       | Model           | Description                           |
+| ---------- | --------------- | ------------------------------------- |
+| Speakers   | Edifier MR5BT   | Active bookshelf speakers, Bluetooth  |
+| Headset    | Logitech G733   | Wireless gaming headset with mic, RGB |
+| Microphone | AVerMedia AM310 | USB condenser desktop microphone      |
 ### 5.4 Phone
 ---
 
@@ -318,3 +318,4 @@ Key capabilities:
 ### 10.1 References
 - https://github.com/Malemow
 - Vendor official documentation
+![](assets/Detail/file-20251223225121015.jpg)

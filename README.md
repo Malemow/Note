@@ -14,6 +14,14 @@ My work focuses on building modern web applications with Vue/Nuxt and Laravel/Gi
 
 This repository documents my personal development setup, tooling, and IT architecture for long-term maintenance and knowledge sharing.
 
+I am also an avid gamer, with a strong passion for the *Monster Hunter* series.
+
+For me, gaming is more than entertainment — it is a way to:
+- Relax after intensive engineering work
+- Appreciate complex system and gameplay design
+- Continuously care about performance, latency, and hardware tuning from a player’s perspective
+
+
 ---
 
 ## 🧰 Skills
@@ -36,20 +44,20 @@ This repository documents my personal development setup, tooling, and IT archite
 - SQLite
 - MySQL
 - PostgreSQL
-  - Full-Text Search (tsvector / tsquery, GIN)
-  - Vector search with pgvector (ANN, cosine similarity)
-  - Geo queries with PostGIS (distance, spatial index)
-  - JSONB storage & querying
-  - Advanced indexing (GIN, GiST, partial, expression)
-  - Query tuning (EXPLAIN ANALYZE)
-  - Extensions: pg_trgm, pgcrypto
+	- Full-Text Search (tsvector / tsquery, GIN)
+	- Vector search with pgvector (ANN, cosine similarity)
+	- Geo queries with PostGIS (distance, spatial index)
+	- JSONB storage & querying
+	- Advanced indexing (GIN, GiST, partial, expression)
+	- Query tuning (EXPLAIN ANALYZE)
+	- Extensions: pg_trgm, pgcrypto
 - Redis
 
 ### 📡 Observability / Monitoring
 - Rsync / Rsyslog
 - Grafana
-  - Loki
-  - Alloy
+	- Loki
+	- Alloy
 - Prometheus
 
 ---
