@@ -1,9 +1,9 @@
 # Nick — Software Engineer
 
-:LiCircleUser: Nick  
-:LiComputer: Software Engineer  
-:LiLandPlot: New Taipei City, Taiwan  
-:LiLanguages: 繁體中文  
+👤 Nick  
+💻 Software Engineer  
+📍 New Taipei City, Taiwan  
+🗣️ 繁體中文  
 
 ---
 ## 👤 About Me
@@ -17,38 +17,38 @@ This repository documents my personal development setup, tooling, and IT archite
 
 ## 🧰 Skills
 
-### :LiTerminal: Programming Languages
+### ⌨️ Programming Languages
 - Bash
 - Go
 - PHP
 - JavaScript / TypeScript / Bun
 - Rust
 
-### :LiAlignLeft: Frameworks
+### 🧱 Frameworks
 - Vue 3
 - Nuxt 3
 - Laravel 10
 - Gin
 - Fastify
 
-### :LiDatabase: Databases
+### 🗄️ Databases
 - SQLite
 - MySQL
 - PostgreSQL
-	- Full-Text Search (tsvector / tsquery, GIN)
-	- Vector search with pgvector (ANN, cosine similarity)
-	- Geo queries with PostGIS (distance, spatial index)
-	- JSONB storage & querying
-	- Advanced indexing (GIN, GiST, partial, expression)
-	- Query tuning (EXPLAIN ANALYZE)
-	- Extensions: pg_trgm, pgcrypto
+  - Full-Text Search (tsvector / tsquery, GIN)
+  - Vector search with pgvector (ANN, cosine similarity)
+  - Geo queries with PostGIS (distance, spatial index)
+  - JSONB storage & querying
+  - Advanced indexing (GIN, GiST, partial, expression)
+  - Query tuning (EXPLAIN ANALYZE)
+  - Extensions: pg_trgm, pgcrypto
 - Redis
 
-### :LiCamera: Observability / Monitoring
+### 📡 Observability / Monitoring
 - Rsync / Rsyslog
 - Grafana
-	- Loki
-	- Alloy
+  - Loki
+  - Alloy
 - Prometheus
 
 ---

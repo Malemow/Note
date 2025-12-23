@@ -1,8 +1,8 @@
 # Personal IT Architecture
 
-> :LiUserRoundPen: Owner: Nick  
-> :LiBackpack: Scope: Home-Lab & Personal Development Environment  
-> :LiTimer: Last Updated: 2025-12-23
+> Owner: Nick  
+> Scope: Home-Lab & Personal Development Environment  
+> Last Updated: 2025-12-23
 
 > Security Notice:  
 > This document is intended for public sharing.  
