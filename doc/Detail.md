@@ -10,7 +10,7 @@
 > firewall rules, and host mappings are deliberately omitted to avoid exposing
 > sensitive infrastructure information.
 ---
-
+- 🌏 [繁體中文版本](Detail-zh_TW.md)
 ## 1. Overview
 
 This document describes the architecture, tooling, and operational design of my personal IT environment.  
