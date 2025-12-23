@@ -325,4 +325,4 @@ Key capabilities:
 ### 10.1 References
 - https://github.com/Malemow
 - Vendor official documentation
-![](assets/Detail/file-20251223225121015.jpg)
+![](assets/README/file-20251224021327852.jpg)
