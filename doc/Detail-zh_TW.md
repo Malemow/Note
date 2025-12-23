@@ -203,50 +203,35 @@ Repo: https://github.com/Malemow/neovim
 
 ### 5.3 周邊設備
 ---
+#### 輸入裝置
 
-#### 滑鼠
+| 類型 | 型號 | 說明 |
+|------|------|------|
+| 滑鼠 | Logitech G502 Hero | 有線電競滑鼠 |
+| 滑鼠 | Logitech G703 | 無線電競滑鼠 |
+| 滑鼠 | Logitech Pro Wireless | 輕量化電競滑鼠 |
+| 滑鼠 | Logitech G502 X Plus | 無線電競滑鼠 |
+| 鍵盤 | HHKB Hybrid Type-S（Snow） | 60%、Topre、靜音 |
+| 鍵盤 | HHKB Hybrid Type-S（White） | 60%、Topre、靜音 |
+| 鍵盤 | Logitech G913 White | 低鍵程無線 |
+| 鍵盤 | Logitech G915 White | 低鍵程無線 |
+| 繪圖板 | Wacom One (2017) | 入門繪圖板 |
+| 繪圖板 | Wacom Cintiq 16 | 繪圖顯示器 |
 
-| 型號                    | 說明      |
-| --------------------- | ------- |
-| Logitech G502 Hero    | 有線電競滑鼠  |
-| Logitech G703         | 無線電競滑鼠  |
-| Logitech Pro Wireless | 輕量化電競滑鼠 |
-| Logitech G502 X Plus  | 無線電競滑鼠  |
-
-#### 鍵盤
-
-| 型號 | 說明 |
-|------|------|
-| HHKB Hybrid Type-S（Snow） | 60%、Topre、靜音 |
-| HHKB Hybrid Type-S（White） | 60%、Topre、靜音 |
-| Logitech G913 White | 低鍵程無線 |
-| Logitech G915 White | 低鍵程無線 |
-
-#### 螢幕
+#### 顯示裝置
 
 | 型號           | 說明     |
 | ------------ | ------ |
 | MSI MAG322CR | 曲面電競螢幕 |
 | MSI G244F E2 |        |
-#### 喇叭
 
-| 型號          | 備註                         |
-|---------------|------------------------------|
-| Edifier MR5BT | 主動式書架喇叭、藍牙          |
+#### 音訊裝置
 
-#### 耳機
-
-| 型號          | 備註                              |
-|---------------|-----------------------------------|
-| Logitech G733 | 無線電競耳機（含麥克風）、RGB      |
-
-#### 繪圖板
-
-| 型號 | 說明 |
-|------|------|
-| Wacom One (2017) | 入門繪圖板 |
-| Wacom Cintiq 16 | 繪圖顯示器 |
-
+| 類型  | 型號              | 說明               |
+| --- | --------------- | ---------------- |
+| 喇叭  | Edifier MR5BT   | 主動式書架喇叭、藍牙       |
+| 耳機  | Logitech G733   | 無線電競耳機（含麥克風）、RGB |
+| 麥克風 | AVerMedia AM310 | USB 電容式桌上型麥克風    |
 ### 5.4 手機
 ---
 

@@ -204,50 +204,35 @@ Key capabilities:
 
 ### 5.3 Peripherals
 ---
+#### Input Devices
 
-#### Mouse
+| Type | Model | Description |
+|------|-------|-------------|
+| Mouse | Logitech G502 Hero | Wired gaming mouse |
+| Mouse | Logitech G703 | Wireless gaming mouse |
+| Mouse | Logitech Pro Wireless | Lightweight gaming mouse |
+| Mouse | Logitech G502 X Plus | Wireless gaming mouse |
+| Keyboard | HHKB Hybrid Type-S (Snow) | 60%, Topre, silent |
+| Keyboard | HHKB Hybrid Type-S (White) | 60%, Topre, silent |
+| Keyboard | Logitech G913 White | Low-profile, wireless |
+| Keyboard | Logitech G915 White | Low-profile, wireless |
+| Pen Tablet | Wacom One (2017) | Entry-level pen tablet |
+| Pen Display | Wacom Cintiq 16 | Pen display |
 
-| Model                 | Note                      |
-| --------------------- | ------------------------- |
-| Logitech G502 Hero    | Wired gaming mouse        |
-| Logitech G703         | Wireless gaming mouse     |
-| Logitech Pro Wireless | Lightweight esports mouse |
-| Logitech G502 X Plus  | Wireless gaming mouse     |
+#### Displays
 
-#### Keyboard
-
-| Model                                   | Note |
-|-----------------------------------------|------|
-| HHKB Hybrid Type-S (Snow)                | 60%, Topre, silent |
-| HHKB Hybrid Type-S (White)               | 60%, Topre, silent |
-| Logitech G913 White                     | Low-profile wireless |
-| Logitech G915 White                     | Low-profile wireless |
-
-#### Monitor
-
-| Model        | Note                  |
-| ------------ | --------------------- |
+| Model | Description |
+|-------|-------------|
 | MSI MAG322CR | Curved gaming monitor |
-| MSI G244F E2 |                       |
-#### Speakers
+| MSI G244F E2 |  |
 
-| Model           | Note                          |
-|-----------------|-------------------------------|
-| Edifier MR5BT   | Active bookshelf, Bluetooth  |
+#### Audio Devices
 
-#### Headsets
-
-| Model           | Note                              |
-|-----------------|-----------------------------------|
-| Logitech G733   | Wireless gaming headset, RGB      |
-
-#### Graphics Tablet
-
-| Model              | Note |
-|--------------------|------|
-| Wacom One (2017)   | Entry pen tablet |
-| Wacom Cintiq 16    | Pen display |
-
+| Type | Model | Description |
+|------|-------|-------------|
+| Speakers | Edifier MR5BT | Active bookshelf speakers, Bluetooth |
+| Headset | Logitech G733 | Wireless gaming headset with mic, RGB |
+| Microphone | AVerMedia AM310 | USB condenser desktop microphone |
 ### 5.4 Phone
 ---
 
