@@ -3,7 +3,7 @@
 👤 Nick  
 💻 Software Engineer  
 📍 New Taipei City, Taiwan  
-🗣️ 繁體中文  
+🗣️ 
 
 ---
 ## 👤 About Me
@@ -67,7 +67,7 @@ This repository documents my personal development setup, tooling, and IT archite
 
 This repository contains detailed documentation of my personal IT environment:
 
-- 📘 **[Personal IT Architecture](Detail.md)**  
+- 📘 **[Personal IT Architecture](doc/Detail.md)**  
   Architecture overview, tools, hardware inventory, server stack, and operations guide.
 
 > The architecture document is intended for long-term maintenance and public sharing,  
