@@ -233,6 +233,13 @@ Key capabilities:
 | Speakers   | Edifier MR5BT   | Active bookshelf speakers, Bluetooth  |
 | Headset    | Logitech G733   | Wireless gaming headset with mic, RGB |
 | Microphone | AVerMedia AM310 | USB condenser desktop microphone      |
+
+#### Video Devices
+
+| Type   | Model                   | Description     |
+| ------ | ----------------------- | --------------- |
+| Webcam | Logitech C270 HD Webcam | 720p USB webcam |
+
 ### 5.4 Phone
 ---
 

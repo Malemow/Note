@@ -232,6 +232,13 @@ Repo: https://github.com/Malemow/neovim
 | 喇叭  | Edifier MR5BT   | 主動式書架喇叭、藍牙       |
 | 耳機  | Logitech G733   | 無線電競耳機（含麥克風）、RGB |
 | 麥克風 | AVerMedia AM310 | USB 電容式桌上型麥克風    |
+
+#### 影像裝置
+
+| 類型   | 型號                   | 說明               |
+|--------|------------------------|--------------------|
+| 攝影機 | Logitech C270 HD Webcam | 720p USB 網路攝影機 |
+
 ### 5.4 手機
 ---
 
@@ -317,3 +324,4 @@ Repo: https://github.com/Malemow/neovim
 ### 10.1 參考
 - https://github.com/Malemow
 - 各廠商官方文件
+![](assets/Detail/file-20251223225121015.jpg)
