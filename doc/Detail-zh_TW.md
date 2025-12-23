@@ -150,14 +150,13 @@ Repo: https://github.com/Malemow/neovim
 #### Windows
 ---
 
-| 項目            | 工具 / 值                                          | 說明                      |
-| --------------- | -------------------------------------------------- | ------------------------- |
-| 終端機          | Windows Terminal                                   | 主要終端模擬器            |
-| Shell           | PowerShell                                         | 預設 Windows shell        |
-| 主題            | Dracula Pro                                        |                           |
-| 套件管理        | scoop                                              | CLI 套件管理工具          |
-| Prompt          | oh-my-posh                                         | Prompt 主題引擎           |
-| 設定 Repo       | https://github.com/Malemow/system-home/tree/windows | Windows shell 設定        |
+| 項目      | 工具 / 值                                              | 說明               |
+| ------- | --------------------------------------------------- | ---------------- |
+| 終端機     | Windows Terminal + oh-my-posh                       | 主要終端模擬器          |
+| Shell   | PowerShell                                          | 預設 Windows shell |
+| 主題      | Dracula Pro                                         |                  |
+| 套件管理    | scoop                                               | CLI 套件管理工具       |
+| 設定 Repo | https://github.com/Malemow/system-home/tree/windows | Windows shell 設定 |
 
 ---
 
