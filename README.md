@@ -3,7 +3,7 @@
 👤 Nick  
 💻 Software Engineer  
 📍 New Taipei City, Taiwan  
-🗣️ 
+🗣️ Traditional Chinese
 
 ---
 ## 👤 About Me
