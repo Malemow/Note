@@ -229,6 +229,17 @@ Key capabilities:
 | ------------ | --------------------- |
 | MSI MAG322CR | Curved gaming monitor |
 | MSI G244F E2 |                       |
+#### Speakers
+
+| Model           | Note                          |
+|-----------------|-------------------------------|
+| Edifier MR5BT   | Active bookshelf, Bluetooth  |
+
+#### Headsets
+
+| Model           | Note                              |
+|-----------------|-----------------------------------|
+| Logitech G733   | Wireless gaming headset, RGB      |
 
 #### Graphics Tablet
 
