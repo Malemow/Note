@@ -15,9 +15,11 @@
       --color-slate-100: #f1f5f9;
       --color-slate-50: #f8fafc;
       
-      /* Semantic Tokens (Light Mode Default) */
+      /* Semantic Tokens */
       --primary: #4f46e5;
+      --primary-rgb: 79, 70, 229; /* For glass effects */
       --primary-light: #e0e7ff;
+      
       --secondary: #db2777;
       --accent: #7c3aed;
       --success: #16a34a;
@@ -26,8 +28,10 @@
       
       --text: #334155;
       --text-muted: #64748b;
-      --bg: #f8fafc;
+      --bg: #f1f5f9; /* Slightly darker bg to show glass effect */
       --card-bg: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.5);
       --border: #cbd5e1;
       --code-bg: #1e293b;
       --code-text: #e2e8f0;
@@ -35,14 +39,17 @@
 
     /* Dark Mode Theme Definition */
     [data-theme="dark"] {
-      --primary: #818cf8; /* Lighter purple for dark bg */
-      --primary-light: #1e1b4b;
+      --primary: #818cf8;
+      --primary-rgb: 129, 140, 248;
+      --primary-light: rgba(129, 140, 248, 0.15);
       --text: #f1f5f9;
       --text-muted: #94a3b8;
-      --bg: #0f172a;
+      --bg: #020617; /* Deep dark bg */
       --card-bg: #1e293b;
+      --glass-bg: rgba(30, 41, 59, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.1);
       --border: #334155;
-      --code-bg: #020617;
+      --code-bg: #0f172a;
     }
 
     * { box-sizing: border-box; }
@@ -50,13 +57,14 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; /* Apple Font First */
       background-color: var(--bg);
+      /* background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%); */
       color: var(--text);
       line-height: 1.6;
       margin: 0;
-      padding-left: 280px; /* Sidebar width */
-      transition: background-color 0.3s, color 0.3s; /* Smooth Theme Transition */
+      padding-left: 320px; /* More space for floating sidebar */
+      transition: background-color 0.3s, color 0.3s;
     }
 
     /* Theme Switcher Button */
@@ -80,27 +88,79 @@
     }
     @keyframes scroll-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-    /* Sidebar Navigation */
+    /* Sidebar Navigation (Apple Style Glassmorphism) */
     nav {
-      width: 280px; height: 100vh;
-      background: var(--card-bg); border-right: 1px solid var(--border);
-      position: fixed; left: 0; top: 0;
-      overflow-y: auto; padding: 20px;
+      width: 280px;
+      height: calc(100vh - 40px); /* Floating: gaps top/bottom */
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      padding: 24px 16px;
       z-index: 100;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.02);
-      transition: background-color 0.3s, border-color 0.3s;
+      
+      /* Glass Effect */
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px; /* Big rounded corners */
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+      
+      overflow-y: auto;
+      transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    nav h1 { font-size: 1.25rem; margin: 0 0 20px 0; color: var(--primary); padding-bottom: 15px; border-bottom: 2px solid var(--primary-light); }
+    
+    /* Hide Scrollbar for cleaner look */
+    nav::-webkit-scrollbar { width: 0px; background: transparent; }
+    
+    nav h1 { 
+      font-size: 1.1rem; margin: 0 0 20px 10px; color: var(--text); font-weight: 800; letter-spacing: -0.02em;
+      border-bottom: none; /* Cleaner header */
+    }
     nav ul { list-style: none; padding: 0; }
-    nav li { margin-bottom: 4px; }
+    nav li { margin-bottom: 2px; }
+    
+    /* Links: Pill Shape */
     nav a {
-      text-decoration: none; color: var(--text-muted); display: block; padding: 8px 12px;
-      border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+      text-decoration: none; color: var(--text-muted); display: block; 
+      padding: 10px 16px;
+      border-radius: 12px; /* Pill shape */
+      font-size: 0.9rem; font-weight: 600; 
+      transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    nav a:hover, nav a.active-link { /* 加入 .active-link 樣式 */
-      background: var(--primary-light); color: var(--primary); transform: translateX(4px);
+    
+    /* Hover State */
+    nav a:hover { 
+      background: rgba(var(--primary-rgb), 0.08); 
+      color: var(--primary); 
+      transform: scale(1.02); /* Subtle zoom */
     }
-    nav .section-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin: 20px 0 5px 10px; font-weight: 700; letter-spacing: 0.05em; }
+    
+    /* Active State (Solid Pill) */
+    nav a.active-link { 
+      background: var(--primary); 
+      color: #ffffff; 
+      box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+      transform: translateX(0); /* Reset transform */
+    }
+    
+    nav .section-title { 
+      /* 關鍵：讓側邊欄分類標題也具備黏性 */
+      position: sticky;
+      top: -24px; /* 抵消 nav 的 padding-top，讓它黏在最頂端 */
+      z-index: 20;
+      
+      /* 視覺：同樣使用毛玻璃效果，並增加垂直內距 */
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin: 0 -16px 8px -16px; /* 負邊距讓它左右貼邊 */
+      padding: 12px 24px;
+      
+      font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); 
+      font-weight: 700; letter-spacing: 0.05em; opacity: 1; /* 提高不透明度以便閱讀 */
+      border-bottom: 1px solid var(--glass-border);
+    }
 
     /* =========================================
        Main Content Layout
@@ -110,11 +170,34 @@
     section {
       background: var(--card-bg); border-radius: 12px; padding: 30px; margin-bottom: 60px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border);
-      scroll-margin-top: 20px;
+      /* 關鍵修正：增加滾動時的頂部留白，讓標題不要卡在瀏覽器邊緣 */
+      scroll-margin-top: 80px;
       transition: background-color 0.3s, border-color 0.3s;
     }
 
-    h2 { margin-top: 0; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    h2 { 
+      /* 關鍵：黏性定位 */
+      position: sticky;
+      top: -1px; /* 稍微偏移以完全蓋住上方邊緣 */
+      z-index: 10;
+      
+      /* 視覺：毛玻璃效果，與背景融合 */
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      
+      /* 調整間距以補償 section 的 padding */
+      margin: -30px -30px 20px -30px; 
+      padding: 20px 30px;
+      border-radius: 12px 12px 0 0;
+      border-bottom: 1px solid var(--border);
+      
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
     h2::before { content: '#'; color: var(--primary); opacity: 0.5; }
     h3 { margin-top: 30px; font-size: 1.1rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
     h3::before { content: ''; width: 6px; height: 6px; background: var(--secondary); border-radius: 50%; display: inline-block; }
@@ -415,7 +498,8 @@
               history.replaceState(null, null, `#${id}`);
               
               // 4. 讓 Sidebar 自動捲動到 active link 的位置 (提升 UX)
-              activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+              // 改為 'center'：類似 Vim 的 scrolloff，讓當前項目盡量保持在側邊欄中間，保留上下視野
+              activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
             }
           }
         });
@@ -498,7 +582,12 @@
     <!-- 1. Combinators -->
     <section id="sel-combinators">
       <h2>1. 組合選擇器 (Combinators)</h2>
-      <p>控制元素之間的關係。</p>
+      <p>控制元素之間的關係。請向下捲動觀察此標題如何「黏」在上方。</p>
+
+      <div style="padding: 20px; background: var(--primary-light); border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--primary);">
+        <strong>Sticky 提示：</strong> 這裡故意放了一段長文字。當您捲動時，上面的「1. 組合選擇器」會一直留著。<br><br>
+        CSS 屬性：<code>position: sticky; top: 0;</code>
+      </div>
 
       <h3>A. 子代 (>) vs 後代 (空白)</h3>
       <div class="combinator-demo child-demo">
