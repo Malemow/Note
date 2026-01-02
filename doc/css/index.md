@@ -56,6 +56,12 @@
     - 強制重排 (Forced Reflow)
     - 實作 `height: 0` 到 `height: auto` 動畫
 
+### 8. 前沿技術 (Bleeding Edge)
+- **[09-bleeding-edge-css.md](./09-bleeding-edge-css.md)**
+    - `@property` 自定義變數類型 (讓漸層動起來)
+    - `anchor()` 原生錨點定位
+    - View Transitions API
+
 ---
 
 ## 參考資源 (References)

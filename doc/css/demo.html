@@ -338,6 +338,12 @@
     <ul>
       <li><a href="#js-render">12. JS 渲染機制實戰</a></li>
     </ul>
+    <div class="section-title">Bleeding Edge</div>
+    <ul>
+      <li><a href="#houdini">13. @property (Houdini)</a></li>
+      <li><a href="#anchor-pos">14. Anchor Positioning</a></li>
+      <li><a href="#view-trans">15. View Transitions</a></li>
+    </ul>
   </nav>
 
   <!-- Hidden Sidebar Content -->
@@ -947,6 +953,191 @@
 
 <span class="cmmt">// 3. 設定為 0</span>
 <span class="val">el.style.height</span> = <span class="val">'0px'</span>;</pre>
+      </details>
+    </section>
+
+      
+    </section>
+
+    <!-- 13. @property (Houdini) -->
+    <section id="houdini">
+      <h2>13. @property：讓漸層動起來 (Houdini)</h2>
+      <p>傳統上，<code>linear-gradient</code> 是無法做 <code>transition</code> 的。透過 <code>@property</code> 定義變數類型，我們可以解鎖這個能力。</p>
+      <p style="font-size: 0.8rem; color: #d97706;">(請將滑鼠懸停在卡片上)</p>
+
+      <div class="houdini-card">
+        Hover Me
+      </div>
+
+      <style>
+        /* 1. 定義變數類型 */
+        @property --gradient-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        @property --gradient-color {
+          syntax: '<color>';
+          initial-value: #4f46e5;
+          inherits: false;
+        }
+
+        .houdini-card {
+          width: 200px; height: 120px;
+          border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          color: white; font-weight: bold; cursor: pointer;
+          
+          /* 2. 使用變數 */
+          background: linear-gradient(var(--gradient-angle), var(--gradient-color), #ec4899);
+          
+          /* 3. 定義過渡：現在瀏覽器知道這是 角度 和 顏色，所以可以補間 */
+          transition: --gradient-angle 1s ease, --gradient-color 1s ease, transform 0.3s;
+        }
+
+        .houdini-card:hover {
+          --gradient-angle: 360deg;
+          --gradient-color: #06b6d4;
+          transform: scale(1.05);
+        }
+      </style>
+
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="sel">@property --angle</span> {
+  <span class="prop">syntax</span>: <span class="val">'&lt;angle&gt;'</span>; <span class="cmmt">/* 關鍵：告訴瀏覽器這是角度，不是字串 */</span>
+  <span class="prop">initial-value</span>: <span class="val">0deg</span>;
+  <span class="prop">inherits</span>: <span class="val">false</span>;
+}
+
+<span class="sel">.card</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(var(--angle), blue, red)</span>;
+  <span class="prop">transition</span>: <span class="val">--angle 1s</span>; <span class="cmmt">/* 這樣就能動了！ */</span>
+}
+
+<span class="sel">.card:hover</span> {
+  <span class="prop">--angle</span>: <span class="val">360deg</span>;
+}</pre>
+      </details>
+    </section>
+
+    <!-- 14. Anchor Positioning -->
+    <section id="anchor-pos">
+      <h2>14. 原生錨點定位 (Anchor Positioning)</h2>
+      <p>無需 JavaScript 計算座標，直接用 CSS 將 B 元素綁定到 A 元素旁。</p>
+      <p style="font-size: 0.8rem; color: #64748b;">(注意：目前僅 Chrome/Edge 125+ 支援)</p>
+
+      <div style="position: relative; height: 150px; border: 1px dashed #ccc; margin-top: 20px;">
+        <button class="anchor-btn">我是錨點 (Anchor)</button>
+        <div class="anchor-tooltip">我是 Tooltip</div>
+      </div>
+
+      <style>
+        .anchor-btn {
+          anchor-name: --my-anchor; /* 定義錨點名稱 */
+          
+          position: absolute; top: 50%; left: 30%; transform: translate(-50%, -50%);
+          padding: 10px 20px; background: var(--text); color: white; border: none; border-radius: 6px;
+        }
+
+        .anchor-tooltip {
+          position: absolute;
+          position-anchor: --my-anchor; /* 綁定錨點 */
+          
+          /* 定位邏輯：底部對齊錨點的頂部，左邊對齊錨點的右邊 */
+          bottom: anchor(top);
+          left: anchor(right);
+          margin-left: 10px;
+          
+          background: var(--primary); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem;
+        }
+        
+        /* Fallback for browsers without anchor support */
+        @supports not (anchor-name: --a) {
+          .anchor-tooltip::after { content: " (瀏覽器不支援 Anchor)"; font-size: 0.7em; opacity: 0.7; }
+        }
+      </style>
+
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="sel">.button</span> {
+  <span class="prop">anchor-name</span>: <span class="val">--my-target</span>;
+}
+
+<span class="sel">.tooltip</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">position-anchor</span>: <span class="val">--my-target</span>;
+  
+  <span class="cmmt">/* 魔法函數 anchor() */</span>
+  <span class="prop">top</span>: <span class="val">anchor(bottom)</span>;   <span class="cmmt">/* 貼齊下方 */</span>
+  <span class="prop">left</span>: <span class="val">anchor(center)</span>;  <span class="cmmt">/* 水平置中 */</span>
+  <span class="prop">transform</span>: <span class="val">translateX(-50%)</span>;
+}</pre>
+      </details>
+    </section>
+
+    <!-- 15. View Transitions -->
+    <section id="view-trans">
+      <h2>15. 視圖過渡 (View Transitions API)</h2>
+      <p>這是一個 JS API，但它能自動產生 CSS 動畫來平滑 DOM 的變化。</p>
+      
+      <div class="vt-demo">
+        <button onclick="moveItem()" style="margin-bottom: 10px; padding: 8px 16px; cursor: pointer;">
+          移動圓球 (Trigger Transition)
+        </button>
+        
+        <div class="vt-container" style="display: flex; gap: 20px; height: 80px; background: #f1f5f9; padding: 10px; border-radius: 8px;">
+          <div id="box-a" style="flex: 1; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center;">
+            <div id="ball" style="width: 40px; height: 40px; background: var(--secondary); border-radius: 50%; view-transition-name: ball;"></div>
+          </div>
+          <div id="box-b" style="flex: 1; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center;"></div>
+        </div>
+      </div>
+
+      <script>
+        function moveItem() {
+          // 檢查瀏覽器是否支援
+          if (!document.startViewTransition) {
+            performMove(); // 不支援就直接跑
+            return;
+          }
+
+          // 啟動視圖過渡
+          document.startViewTransition(() => {
+            performMove();
+          });
+        }
+
+        function performMove() {
+          const ball = document.getElementById('ball');
+          const boxA = document.getElementById('box-a');
+          const boxB = document.getElementById('box-b');
+          
+          if (boxA.contains(ball)) {
+            boxB.appendChild(ball);
+          } else {
+            boxA.appendChild(ball);
+          }
+        }
+      </script>
+
+      <details>
+        <summary>查看關鍵實作代碼</summary>
+        <pre>
+<span class="cmmt">/* CSS: 給要移動的元素一個唯一的 transition-name */</span>
+<span class="sel">#ball</span> {
+  <span class="prop">view-transition-name</span>: <span class="val">moving-ball</span>;
+}
+
+<span class="cmmt">/* JS: 使用 API 包裹 DOM 修改操作 */</span>
+<span class="sel">document.startViewTransition</span>(() => {
+  <span class="cmmt">// 這裡只需要做單純的 DOM 移動 (appendChild)</span>
+  <span class="cmmt">// 瀏覽器會自動計算舊位置和新位置，並產生飛行動畫！</span>
+  <span class="val">newContainer.appendChild(ball)</span>;
+});</pre>
       </details>
     </section>
 
