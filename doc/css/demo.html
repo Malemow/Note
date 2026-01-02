@@ -9,6 +9,13 @@
        0. Core & Reset
        ========================================= */
     :root {
+      /* Primitives */
+      --color-slate-900: #0f172a;
+      --color-slate-800: #1e293b;
+      --color-slate-100: #f1f5f9;
+      --color-slate-50: #f8fafc;
+      
+      /* Semantic Tokens (Light Mode Default) */
       --primary: #4f46e5;
       --primary-light: #e0e7ff;
       --secondary: #db2777;
@@ -16,11 +23,26 @@
       --success: #16a34a;
       --warning: #d97706;
       --error: #dc2626;
+      
       --text: #334155;
+      --text-muted: #64748b;
       --bg: #f8fafc;
+      --card-bg: #ffffff;
       --border: #cbd5e1;
       --code-bg: #1e293b;
       --code-text: #e2e8f0;
+    }
+
+    /* Dark Mode Theme Definition */
+    [data-theme="dark"] {
+      --primary: #818cf8; /* Lighter purple for dark bg */
+      --primary-light: #1e1b4b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --code-bg: #020617;
     }
 
     * { box-sizing: border-box; }
@@ -34,7 +56,18 @@
       line-height: 1.6;
       margin: 0;
       padding-left: 280px; /* Sidebar width */
+      transition: background-color 0.3s, color 0.3s; /* Smooth Theme Transition */
     }
+
+    /* Theme Switcher Button */
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      background: var(--card-bg); border: 1px solid var(--border);
+      color: var(--text); padding: 8px 12px; border-radius: 20px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .theme-toggle:hover { background: var(--primary-light); }
 
     /* Scroll Progress Bar (Global) */
     .scroll-progress {
@@ -47,26 +80,27 @@
     }
     @keyframes scroll-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-    /* =========================================
-       Sidebar Navigation
-       ========================================= */
+    /* Sidebar Navigation */
     nav {
       width: 280px; height: 100vh;
-      background: white; border-right: 1px solid var(--border);
+      background: var(--card-bg); border-right: 1px solid var(--border);
       position: fixed; left: 0; top: 0;
       overflow-y: auto; padding: 20px;
       z-index: 100;
       box-shadow: 4px 0 24px rgba(0,0,0,0.02);
+      transition: background-color 0.3s, border-color 0.3s;
     }
     nav h1 { font-size: 1.25rem; margin: 0 0 20px 0; color: var(--primary); padding-bottom: 15px; border-bottom: 2px solid var(--primary-light); }
     nav ul { list-style: none; padding: 0; }
     nav li { margin-bottom: 4px; }
     nav a {
-      text-decoration: none; color: #64748b; display: block; padding: 8px 12px;
+      text-decoration: none; color: var(--text-muted); display: block; padding: 8px 12px;
       border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
     }
-    nav a:hover { background: var(--primary-light); color: var(--primary); transform: translateX(4px); }
-    nav .section-title { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; margin: 20px 0 5px 10px; font-weight: 700; letter-spacing: 0.05em; }
+    nav a:hover, nav a.active-link { /* 加入 .active-link 樣式 */
+      background: var(--primary-light); color: var(--primary); transform: translateX(4px);
+    }
+    nav .section-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin: 20px 0 5px 10px; font-weight: 700; letter-spacing: 0.05em; }
 
     /* =========================================
        Main Content Layout
@@ -74,20 +108,21 @@
     main { padding: 40px; max-width: 1000px; margin: 0 auto; }
     
     section {
-      background: white; border-radius: 12px; padding: 30px; margin-bottom: 60px;
+      background: var(--card-bg); border-radius: 12px; padding: 30px; margin-bottom: 60px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border);
       scroll-margin-top: 20px;
+      transition: background-color 0.3s, border-color 0.3s;
     }
 
     h2 { margin-top: 0; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 15px; display: flex; align-items: center; gap: 10px; }
     h2::before { content: '#'; color: var(--primary); opacity: 0.5; }
-    h3 { margin-top: 30px; font-size: 1.1rem; color: #475569; display: flex; align-items: center; gap: 8px; }
+    h3 { margin-top: 30px; font-size: 1.1rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
     h3::before { content: ''; width: 6px; height: 6px; background: var(--secondary); border-radius: 50%; display: inline-block; }
 
     /* Code Block Styles */
     details { margin-top: 15px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    summary { background: #f8fafc; padding: 10px 15px; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--primary); user-select: none; }
-    summary:hover { background: #f1f5f9; }
+    summary { background: var(--bg); padding: 10px 15px; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--primary); user-select: none; }
+    summary:hover { background: var(--primary-light); }
     pre { margin: 0; padding: 20px; background: var(--code-bg); color: var(--code-text); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; }
     
     /* Syntax Highlighting */
@@ -298,7 +333,101 @@
 </head>
 <body>
 
-  <!-- Top Progress Bar -->
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-text">Dark Mode</span>
+  </button>
+
+  <script>
+    // --- Theme Logic ---
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        document.getElementById('theme-icon').innerText = '🌙';
+        document.getElementById('theme-text').innerText = 'Dark Mode';
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-icon').innerText = '☀️';
+        document.getElementById('theme-text').innerText = 'Light Mode';
+      }
+    }
+
+    // --- Masonry Logic ---
+    function setMasonryCols(cols) {
+      const gallery = document.getElementById('gallery');
+      gallery.style.setProperty('--cols', cols);
+      document.querySelectorAll('.m-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // --- JS Animation Logic (Height 0 to Auto) ---
+    const acc = document.getElementById('accordion');
+    const log = document.getElementById('log');
+    let isOpen = false;
+    function toggleHeight() {
+      if (isOpen) {
+        acc.style.height = acc.scrollHeight + 'px';
+        acc.offsetHeight; // Force reflow
+        acc.style.height = '0px';
+        log.innerText = 'Closing...';
+      } else {
+        const targetHeight = acc.scrollHeight;
+        acc.style.height = targetHeight + 'px';
+        log.innerText = `Opening... (${targetHeight}px)`;
+        acc.addEventListener('transitionend', () => { if(isOpen) acc.style.height = 'auto'; }, {once:true});
+      }
+      isOpen = !isOpen;
+    }
+
+    // --- View Transitions Logic ---
+    function moveItem() {
+      if (!document.startViewTransition) { performMove(); return; }
+      document.startViewTransition(() => performMove());
+    }
+    function performMove() {
+      const ball = document.getElementById('ball');
+      const boxA = document.getElementById('box-a');
+      const boxB = document.getElementById('box-b');
+      boxA.contains(ball) ? boxB.appendChild(ball) : boxA.appendChild(ball);
+    }
+
+    // --- ScrollSpy (Auto Highlight Sidebar) ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('nav a');
+      
+      // 使用 IntersectionObserver 來偵測哪個章節在視窗中
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 1. 移除所有 active
+            navLinks.forEach(link => link.classList.remove('active-link'));
+            
+            // 2. 找到對應的 link 並加上 active
+            const id = entry.target.getAttribute('id');
+            const activeLink = document.querySelector(`nav a[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('active-link');
+              // 3. 更新網址 Hash (不留歷史紀錄)
+              history.replaceState(null, null, `#${id}`);
+              
+              // 4. 讓 Sidebar 自動捲動到 active link 的位置 (提升 UX)
+              activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+          }
+        });
+      }, {
+        rootMargin: '-20% 0px -60% 0px' // 調整觸發線：視窗上方 20% 到下方 60% 之間
+      });
+
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+</body>
+</html>
   <div class="scroll-progress"></div>
 
   <!-- Checkbox for Sidebar Demo -->
@@ -343,6 +472,12 @@
       <li><a href="#houdini">13. @property (Houdini)</a></li>
       <li><a href="#anchor-pos">14. Anchor Positioning</a></li>
       <li><a href="#view-trans">15. View Transitions</a></li>
+    </ul>
+    <div class="section-title">Architecture</div>
+    <ul>
+      <li><a href="#arch-bem">16. BEM 命名規範</a></li>
+      <li><a href="#arch-theme">17. CSS 變數主題 (Dark Mode)</a></li>
+      <li><a href="#masonry">18. 瀑布流佈局 (Masonry)</a></li>
     </ul>
   </nav>
 
@@ -1138,6 +1273,183 @@
   <span class="cmmt">// 瀏覽器會自動計算舊位置和新位置，並產生飛行動畫！</span>
   <span class="val">newContainer.appendChild(ball)</span>;
 });</pre>
+      </details>
+    </section>
+
+      
+    </section>
+
+    <!-- 16. Architecture (BEM) -->
+    <section id="arch-bem">
+      <h2>16. BEM 命名規範 (Block Element Modifier)</h2>
+      <p>BEM 是一種讓 CSS 可維護的命名慣例。格式為 <code>block__element--modifier</code>。</p>
+      
+      <div class="bem-demo" style="display: flex; gap: 10px;">
+        <!-- Card Block -->
+        <div class="c-card">
+          <div class="c-card__header">Header</div>
+          <div class="c-card__body">
+            <button class="c-btn c-btn--primary">Primary</button>
+            <button class="c-btn c-btn--danger">Danger</button>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        /* Block */
+        .c-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg); }
+        /* Element */
+        .c-card__header { background: var(--primary-light); color: var(--primary); padding: 10px; font-weight: bold; }
+        .c-card__body { padding: 15px; display: flex; gap: 10px; }
+        
+        /* Another Block */
+        .c-btn { padding: 5px 15px; border: none; border-radius: 4px; color: white; cursor: pointer; }
+        /* Modifier */
+        .c-btn--primary { background: var(--primary); }
+        .c-btn--danger { background: var(--error); }
+      </style>
+
+      <details>
+        <summary>查看 BEM 結構代碼</summary>
+        <pre>
+<span class="cmmt">/* Block: 獨立的卡片元件 */</span>
+<span class="sel">.c-card</span> { ... }
+
+<span class="cmmt">/* Element: 卡片的組成部分 (__連接) */</span>
+<span class="sel">.c-card__header</span> { ... }
+<span class="sel">.c-card__body</span> { ... }
+
+<span class="cmmt">/* Block: 按鈕元件 */</span>
+<span class="sel">.c-btn</span> { ... }
+
+<span class="cmmt">/* Modifier: 按鈕的變體 (--連接) */</span>
+<span class="sel">.c-btn--primary</span> { <span class="prop">background</span>: <span class="val">blue</span>; }
+<span class="sel">.c-btn--danger</span>  { <span class="prop">background</span>: <span class="val">red</span>; }</pre>
+      </details>
+    </section>
+
+    <!-- 17. Theming -->
+    <section id="arch-theme">
+      <h2>17. CSS 變數主題策略 (Dark Mode)</h2>
+      <p>試著點擊右上角的 "Dark Mode" 按鈕。整個頁面的顏色切換是基於 CSS 變數的重新賦值。</p>
+      <details>
+        <summary>查看主題化實作代碼</summary>
+        <pre>
+<span class="cmmt">/* 1. 定義語意化變數 (Semantic Tokens) */</span>
+<span class="sel">:root</span> {
+  <span class="prop">--bg</span>: <span class="val">#ffffff</span>;
+  <span class="prop">--text</span>: <span class="val">#333333</span>;
+}
+
+<span class="cmmt">/* 2. 定義 Dark Mode 下的變數值 */</span>
+<span class="sel">[data-theme="dark"]</span> {
+  <span class="prop">--bg</span>: <span class="val">#0f172a</span>;
+  <span class="prop">--text</span>: <span class="val">#f1f5f9</span>;
+}
+
+<span class="cmmt">/* 3. 在元件中使用變數 (而不是寫死顏色) */</span>
+<span class="sel">body</span> {
+  <span class="prop">background</span>: <span class="val">var(--bg)</span>;
+  <span class="prop">color</span>: <span class="val">var(--text)</span>;
+}</pre>
+      </details>
+    </section>
+
+      
+    </section>
+
+    <!-- 18. Masonry Layout (Photo Gallery) -->
+    <section id="masonry">
+      <h2>18. 瀑布流相簿 (Masonry Gallery)</h2>
+      <p>這是模擬 Pinterest 風格的圖片牆。CSS Columns 是目前處理「高度不一圖片」的最佳解法。</p>
+      
+      <!-- Layout Controls -->
+      <div class="masonry-controls" style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <button class="m-btn" onclick="setMasonryCols(2)">2 Columns</button>
+        <button class="m-btn active" onclick="setMasonryCols(3)">3 Columns</button>
+        <button class="m-btn" onclick="setMasonryCols(4)">4 Columns</button>
+      </div>
+
+      <!-- Gallery Container -->
+      <div class="masonry-gallery" id="gallery" style="--cols: 3;">
+        <!-- 使用不同長寬比的圖片 -->
+        <div class="m-card"><img src="https://picsum.photos/300/200?random=1" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/400?random=2" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/300?random=3" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/250?random=4" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/500?random=5" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/350?random=6" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/200?random=7" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/450?random=8" alt="img"></div>
+        <div class="m-card"><img src="https://picsum.photos/300/300?random=9" alt="img"></div>
+      </div>
+
+      <style>
+        .masonry-gallery {
+          /* 使用 CSS 變數控制欄數 */
+          column-count: var(--cols);
+          column-gap: 15px;
+        }
+
+        .m-card {
+          /* 關鍵：防止卡片被切斷 */
+          break-inside: avoid;
+          margin-bottom: 15px;
+          border-radius: 12px;
+          overflow: hidden;
+          background: var(--card-bg); /* Dark mode 支援 */
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+          transition: transform 0.2s;
+        }
+        
+        .m-card:hover { transform: translateY(-5px); }
+
+        .m-card img {
+          width: 100%;
+          display: block; /* 消除圖片底部空隙 */
+          height: auto;
+        }
+
+        /* 按鈕樣式 */
+        .m-btn {
+          padding: 6px 16px; border: 1px solid var(--border); background: var(--bg); color: var(--text);
+          border-radius: 20px; cursor: pointer; transition: 0.2s;
+        }
+        .m-btn:hover, .m-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        @media (max-width: 600px) {
+          .masonry-gallery { column-count: 2 !important; }
+        }
+      </style>
+
+      <script>
+        function setMasonryCols(cols) {
+          const gallery = document.getElementById('gallery');
+          gallery.style.setProperty('--cols', cols);
+          
+          // 更新按鈕狀態
+          document.querySelectorAll('.m-btn').forEach(btn => btn.classList.remove('active'));
+          event.target.classList.add('active');
+        }
+      </script>
+
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="sel">.gallery</span> {
+  <span class="prop">column-count</span>: <span class="val">var(--cols, 3)</span>; <span class="cmmt">/* 預設 3 欄 */</span>
+  <span class="prop">column-gap</span>: <span class="val">15px</span>;
+}
+
+<span class="sel">.card</span> {
+  <span class="prop">break-inside</span>: <span class="val">avoid</span>; <span class="cmmt">/* 核心：防止圖片被腰斬 */</span>
+  <span class="prop">margin-bottom</span>: <span class="val">15px</span>;
+}
+
+<span class="sel">img</span> {
+  <span class="prop">width</span>: <span class="val">100%</span>;
+  <span class="prop">display</span>: <span class="val">block</span>;
+}</pre>
       </details>
     </section>
 
