@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 終極百科全書 (The Ultimate CSS Encyclopedia)</title>
+  <style>
+    /* =========================================
+       0. Core & Reset
+       ========================================= */
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #e0e7ff;
+      --secondary: #db2777;
+      --accent: #7c3aed;
+      --success: #16a34a;
+      --warning: #d97706;
+      --error: #dc2626;
+      --text: #334155;
+      --bg: #f8fafc;
+      --border: #cbd5e1;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding-left: 280px; /* Sidebar width */
+    }
+
+    /* Scroll Progress Bar (Global) */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      transform-origin: 0%;
+      animation: scroll-progress auto linear;
+      animation-timeline: scroll();
+      z-index: 9999;
+    }
+    @keyframes scroll-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* =========================================
+       Sidebar Navigation
+       ========================================= */
+    nav {
+      width: 280px; height: 100vh;
+      background: white; border-right: 1px solid var(--border);
+      position: fixed; left: 0; top: 0;
+      overflow-y: auto; padding: 20px;
+      z-index: 100;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.02);
+    }
+    nav h1 { font-size: 1.25rem; margin: 0 0 20px 0; color: var(--primary); padding-bottom: 15px; border-bottom: 2px solid var(--primary-light); }
+    nav ul { list-style: none; padding: 0; }
+    nav li { margin-bottom: 4px; }
+    nav a {
+      text-decoration: none; color: #64748b; display: block; padding: 8px 12px;
+      border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+    }
+    nav a:hover { background: var(--primary-light); color: var(--primary); transform: translateX(4px); }
+    nav .section-title { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; margin: 20px 0 5px 10px; font-weight: 700; letter-spacing: 0.05em; }
+
+    /* =========================================
+       Main Content Layout
+       ========================================= */
+    main { padding: 40px; max-width: 1000px; margin: 0 auto; }
+    
+    section {
+      background: white; border-radius: 12px; padding: 30px; margin-bottom: 60px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border);
+      scroll-margin-top: 20px;
+    }
+
+    h2 { margin-top: 0; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    h2::before { content: '#'; color: var(--primary); opacity: 0.5; }
+    h3 { margin-top: 30px; font-size: 1.1rem; color: #475569; display: flex; align-items: center; gap: 8px; }
+    h3::before { content: ''; width: 6px; height: 6px; background: var(--secondary); border-radius: 50%; display: inline-block; }
+
+    /* Code Block Styles */
+    details { margin-top: 15px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    summary { background: #f8fafc; padding: 10px 15px; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--primary); user-select: none; }
+    summary:hover { background: #f1f5f9; }
+    pre { margin: 0; padding: 20px; background: var(--code-bg); color: var(--code-text); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; }
+    
+    /* Syntax Highlighting */
+    .sel { color: #a5b4fc; } /* Selector */
+    .prop { color: #93c5fd; } /* Property */
+    .val { color: #fca5a5; } /* Value */
+    .cmmt { color: #94a3b8; font-style: italic; } /* Comment */
+    .tag  { color: #5eead4; } /* HTML Tag */
+
+    /* =========================================
+       SECTION 1: Selectors (The Encyclopedia)
+       ========================================= */
+    
+    /* 1.1 Basic & Combinators */
+    .combinator-demo { padding: 15px; border: 1px dashed #ccc; background: #f8fafc; margin-bottom: 10px; }
+    .combinator-demo div { padding: 10px; background: white; border: 1px solid #ddd; margin: 5px; border-radius: 4px; }
+    
+    /* Child (>) */
+    .child-demo > .target { background: #bbf7d0; border-color: #22c55e; }
+    .child-demo > .target::after { content: " (我是直接子元素 >)"; font-size: 0.8em; color: green; }
+    
+    /* Adjacent (+) */
+    .adjacent-trigger { background: var(--primary) !important; color: white; cursor: default; }
+    .adjacent-trigger + div { background: #fbcfe8 !important; border-color: var(--secondary) !important; }
+    .adjacent-trigger + div::after { content: " (我是緊鄰兄弟 +)"; font-size: 0.8em; color: var(--secondary); }
+
+    /* General Sibling (~) */
+    .general-trigger { background: var(--accent) !important; color: white; }
+    .general-trigger ~ div { opacity: 0.5; transform: scale(0.98); }
+
+    /* 1.2 Attribute Selectors */
+    .attr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+    .attr-box { padding: 10px; background: white; border: 1px solid #ddd; text-align: center; font-size: 0.9rem; border-radius: 6px; }
+    
+    [data-type] { border-left: 4px solid #94a3b8; }
+    [data-type="primary"] { border-left-color: var(--primary); background: #e0e7ff; }
+    [data-type^="warn"] { border-left-color: var(--warning); color: var(--warning); } /* Starts with */
+    [data-type$="error"] { border-left-color: var(--error); color: var(--error); } /* Ends with */
+    [data-type*="cc"] { text-decoration: underline; text-decoration-style: wavy; } /* Contains */
+
+    /* 1.3 Structural Pseudo-classes */
+    .nth-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
+    .nth-box { background: #e2e8f0; padding: 10px; text-align: center; border-radius: 4px; font-size: 0.8rem; }
+    
+    .nth-grid :first-child { background: var(--success); color: white; }
+    .nth-grid :last-child { background: var(--error); color: white; }
+    .nth-grid :nth-child(even) { border: 2px solid white; }
+    .nth-grid :nth-child(4n) { transform: translateY(-5px); background: var(--primary); color: white; }
+
+    /* 1.4 UI State Pseudo-classes */
+    .state-demo form { display: grid; gap: 10px; max-width: 400px; }
+    .state-demo input { padding: 8px; border: 2px solid #ddd; border-radius: 4px; outline: none; }
+    
+    .state-demo input:focus { border-color: var(--primary); }
+    .state-demo input:disabled { background: #f1f5f9; cursor: not-allowed; opacity: 0.7; }
+    .state-demo input:checked + span { color: var(--success); font-weight: bold; }
+    .state-demo input:required { border-right: 4px solid var(--warning); }
+    .state-demo input:optional { border-right: 4px solid #ddd; }
+
+    /* 1.5 Pseudo-elements */
+    .pseudo-elem-demo p::first-letter { font-size: 2em; color: var(--primary); float: left; line-height: 1; margin-right: 5px; font-weight: bold; }
+    .pseudo-elem-demo p::first-line { color: #475569; font-weight: 600; }
+    .pseudo-elem-demo p::selection { background: var(--secondary); color: white; }
+    .marker-demo li::marker { color: var(--secondary); content: "👉 "; }
+
+    /* 1.6 Logic Pseudo-classes (:is, :where, :not, :has) */
+    .logic-demo .card { padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 6px; transition: 0.2s; }
+    
+    /* :not() */
+    .logic-list button:not(.primary) { opacity: 0.6; }
+    
+    /* :has() - The most powerful one */
+    .logic-demo .card:has(input:checked) { background: #f0fdf4; border-color: var(--success); transform: scale(1.02); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .logic-demo .card:has(button.delete:hover) { background: #fef2f2; border-color: var(--error); }
+
+    /* =========================================
+       SECTION 2: Specificity (權重)
+       ========================================= */
+    .spec-battle { display: flex; gap: 20px; align-items: flex-start; }
+    .spec-card { flex: 1; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: white; }
+    .spec-score { font-family: monospace; font-size: 1.2rem; margin-bottom: 10px; display: block; color: #64748b; }
+    
+    /* Visualization of Specificity */
+    #id-wins { color: var(--primary); } /* ID: 1,0,0 */
+    .class-loses { color: var(--error); } /* Class: 0,1,0 */
+    
+    .spec-visualizer { margin-top: 20px; }
+    .spec-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 5px; position: relative; overflow: hidden; }
+    .spec-bar-fill { height: 100%; position: absolute; left: 0; top: 0; }
+
+    /* =========================================
+       SECTION 3: Layouts (Interactive)
+       ========================================= */
+    /* Checkbox/Radio Hack Controllers */
+    .ctrl-group { margin-bottom: 15px; }
+    .ctrl-title { font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 5px; text-transform: uppercase; }
+    .hack-radio { display: none; }
+    .ctrl-labels { display: flex; gap: 5px; flex-wrap: wrap; }
+    .ctrl-labels label {
+      padding: 6px 12px; background: white; border: 1px solid var(--border); border-radius: 20px;
+      font-size: 0.85rem; cursor: pointer; user-select: none; transition: 0.1s;
+    }
+    .hack-radio:checked + label { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3); }
+
+    /* Flexbox Engine */
+    #f-dir-row:checked ~ .flex-box-container { flex-direction: row; }
+    #f-dir-col:checked ~ .flex-box-container { flex-direction: column; }
+    #f-wrap-no:checked ~ .flex-box-container { flex-wrap: nowrap; }
+    #f-wrap-yes:checked ~ .flex-box-container { flex-wrap: wrap; }
+    #f-jus-start:checked ~ .flex-box-container { justify-content: flex-start; }
+    #f-jus-center:checked ~ .flex-box-container { justify-content: center; }
+    #f-jus-end:checked ~ .flex-box-container { justify-content: flex-end; }
+    #f-jus-between:checked ~ .flex-box-container { justify-content: space-between; }
+    #f-ali-start:checked ~ .flex-box-container { align-items: flex-start; }
+    #f-ali-center:checked ~ .flex-box-container { align-items: center; }
+    #f-ali-end:checked ~ .flex-box-container { align-items: flex-end; }
+    #f-ali-stretch:checked ~ .flex-box-container { align-items: stretch; }
+
+    .flex-box-container {
+      display: flex; gap: 10px; padding: 20px; background: #f1f5f9; border-radius: 8px;
+      min-height: 250px; transition: 0.3s; border: 1px solid var(--border);
+    }
+    .fb-item {
+      width: 60px; height: 60px; background: var(--accent); color: white;
+      display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 8px;
+      font-size: 1.2rem;
+    }
+    .fb-item:nth-child(2) { height: 80px; background: var(--secondary); }
+    .fb-item:nth-child(3) { height: 50px; background: var(--warning); }
+    .fb-item:nth-child(4) { width: 100px; background: var(--success); }
+
+    /* Grid Areas */
+    .grid-area-demo {
+      display: grid;
+      grid-template-areas: 
+        "header header"
+        "sidebar main"
+        "footer footer";
+      grid-template-columns: 1fr 3fr;
+      grid-template-rows: 60px 200px 60px;
+      gap: 10px;
+    }
+    .ga-box { display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border-radius: 6px; }
+    .ga-header { grid-area: header; background: var(--primary); }
+    .ga-sidebar { grid-area: sidebar; background: var(--secondary); }
+    .ga-main { grid-area: main; background: #64748b; }
+    .ga-footer { grid-area: footer; background: var(--text); }
+
+    /* =========================================
+       SECTION 4: Advanced Patterns (The Good Stuff)
+       ========================================= */
+    
+    /* 4.1 Floating Label */
+    .float-group { position: relative; margin-top: 25px; max-width: 300px; }
+    .float-group input {
+      width: 100%; padding: 12px 10px; border: 2px solid var(--border); border-radius: 6px; outline: none; background: transparent; font-size: 1rem;
+    }
+    .float-group label {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      background: white; padding: 0 5px; color: #94a3b8; pointer-events: none; transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .float-group input:focus { border-color: var(--primary); }
+    /* The Magic */
+    .float-group input:focus + label,
+    .float-group input:not(:placeholder-shown) + label {
+      top: 0; font-size: 0.75rem; color: var(--primary); font-weight: 600;
+    }
+
+    /* 4.2 Friendly Validation */
+    .valid-input { padding: 10px; width: 100%; border: 2px solid var(--border); border-radius: 6px; outline: none; }
+    /* Not placeholder shown AND Invalid */
+    .valid-input:not(:placeholder-shown):invalid { border-color: var(--error); background: #fef2f2; }
+    .valid-input:not(:placeholder-shown):valid { border-color: var(--success); }
+    .err-msg { display: none; color: var(--error); font-size: 0.85rem; margin-top: 5px; }
+    .valid-input:not(:placeholder-shown):invalid ~ .err-msg { display: block; }
+
+    /* 4.3 RAM Layout */
+    .ram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .ram-item { background: #e0e7ff; padding: 20px; text-align: center; border-radius: 8px; font-weight: bold; color: var(--primary); }
+
+    /* 4.4 Pure CSS Sidebar (Checkbox Hack) */
+    .sidebar-trigger-btn {
+      padding: 10px 20px; background: var(--text); color: white; border-radius: 6px; cursor: pointer; display: inline-block;
+    }
+    #sidebar-check { display: none; }
+    
+    .hidden-sidebar {
+      position: fixed; top: 0; right: -300px; width: 300px; height: 100%;
+      background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2000; padding: 20px;
+    }
+    .sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .close-btn { float: right; cursor: pointer; font-size: 1.5rem; }
+
+    /* Open State */
+    #sidebar-check:checked ~ .hidden-sidebar { right: 0; }
+    #sidebar-check:checked ~ .sidebar-overlay { opacity: 1; pointer-events: auto; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <!-- Checkbox for Sidebar Demo -->
+  <input type="checkbox" id="sidebar-check">
+
+  <!-- Navigation -->
+  <nav>
+    <h1>CSS Encyclopedia</h1>
+    
+    <div class="section-title">Selectors</div>
+    <ul>
+      <li><a href="#sel-combinators">1. 組合選擇器 (Combinators)</a></li>
+      <li><a href="#sel-attr">2. 屬性選擇器 (Attributes)</a></li>
+      <li><a href="#sel-struct">3. 結構偽類 (Structural)</a></li>
+      <li><a href="#sel-state">4. 狀態偽類 (State)</a></li>
+      <li><a href="#sel-pseudo">5. 偽元素 (Pseudo-elements)</a></li>
+      <li><a href="#sel-logic">6. 邏輯偽類 (Modern Logic)</a></li>
+    </ul>
+
+    <div class="section-title">Concepts</div>
+    <ul>
+      <li><a href="#specificity">7. 權重競技場 (Specificity)</a></li>
+      <li><a href="#boxmodel">8. 盒模型 (Box Model)</a></li>
+    </ul>
+
+    <div class="section-title">Layout Systems</div>
+    <ul>
+      <li><a href="#flexbox">9. Flexbox 互動實驗室</a></li>
+      <li><a href="#grid">10. Grid 佈局系統</a></li>
+    </ul>
+
+    <div class="section-title">Advanced</div>
+    <ul>
+      <li><a href="#patterns">11. 專家級實戰 Patterns</a></li>
+    </ul>
+    <div class="section-title">JS Integration</div>
+    <ul>
+      <li><a href="#js-render">12. JS 渲染機制實戰</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hidden Sidebar Content -->
+  <div class="sidebar-overlay">
+    <label for="sidebar-check" style="position:absolute; inset:0;"></label>
+  </div>
+  <aside class="hidden-sidebar">
+    <label for="sidebar-check" class="close-btn">&times;</label>
+    <h2>側邊欄 (Sidebar)</h2>
+    <p>這是使用 Checkbox Hack 製作的純 CSS 側邊欄。</p>
+    <p>完全不需要 JavaScript 即可控制開關。</p>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- 1. Combinators -->
+    <section id="sel-combinators">
+      <h2>1. 組合選擇器 (Combinators)</h2>
+      <p>控制元素之間的關係。</p>
+
+      <h3>A. 子代 (>) vs 後代 (空白)</h3>
+      <div class="combinator-demo child-demo">
+        <div class="target">我是兒子 (div > .target)</div>
+        <div>
+          <div class="target">我是孫子 (孫子不會被選中，因為用了 >)</div>
+        </div>
+      </div>
+
+      <h3>B. 緊鄰 (+) vs 通用 (~) 兄弟</h3>
+      <div class="combinator-demo">
+        <div class="adjacent-trigger">參照物 (Trigger)</div>
+        <div>緊鄰兄弟 (+)</div>
+        <div>通用兄弟 1 (~)</div>
+        <div>通用兄弟 2 (~)</div>
+      </div>
+
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 1. 後代選擇器 (Descendant): 空格 */</span>
+<span class="sel">.parent .child</span> { ... } <span class="cmmt">/* 選取內部所有符合的後代 (兒子、孫子...) */</span>
+
+<span class="cmmt">/* 2. 子代選擇器 (Child): > */</span>
+<span class="sel">.parent > .child</span> { 
+  <span class="prop">border</span>: <span class="val">2px solid green</span>; 
+} <span class="cmmt">/* 嚴格限制：只能選取「兒子」層級，孫子不選 */</span>
+
+<span class="cmmt">/* 3. 緊鄰兄弟 (Adjacent Sibling): + */</span>
+<span class="sel">.trigger + .next</span> { 
+  <span class="prop">background</span>: <span class="val">red</span>; 
+} <span class="cmmt">/* 條件：必須緊緊接在後面，中間不能有其他東西 */</span>
+
+<span class="cmmt">/* 4. 通用兄弟 (General Sibling): ~ */</span>
+<span class="sel">.trigger ~ .siblings</span> { 
+  <span class="prop">opacity</span>: <span class="val">0.5</span>; 
+} <span class="cmmt">/* 條件：只要在它後面且同層級即可 */</span></pre>
+      </details>
+    </section>
+
+    <!-- 2. Attributes -->
+    <section id="sel-attr">
+      <h2>2. 屬性選擇器 (Attributes)</h2>
+      <div class="attr-grid">
+        <div class="attr-box" data-type="default">Default</div>
+        <div class="attr-box" data-type="primary">Primary</div>
+        <div class="attr-box" data-type="warn-light">Warning</div>
+        <div class="attr-box" data-type="has-error-msg">Error</div>
+        <div class="attr-box" data-type="acc-xyz">Contains 'cc'</div>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 完全匹配：屬性值必須完全一樣 */</span>
+<span class="sel">[data-type="primary"]</span> { <span class="prop">color</span>: <span class="val">blue</span>; }
+
+<span class="cmmt">/* 開頭匹配 (^=): 適用於像 "warn-light", "warn-dark" 這種命名 */</span>
+<span class="sel">[data-type^="warn"]</span> { <span class="prop">color</span>: <span class="val">orange</span>; }
+
+<span class="cmmt">/* 結尾匹配 ($=): 適用於檔案類型選取，如 [href$=".pdf"] */</span>
+<span class="sel">[data-type$="error"]</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cmmt">/* 模糊包含 (*=): 只要屬性值裡有這段文字就算選中 */</span>
+<span class="sel">[data-type*="cc"]</span> { <span class="prop">text-decoration</span>: <span class="val">underline</span>; }</pre>
+      </details>
+    </section>
+
+    <!-- 3. Structural -->
+    <section id="sel-struct">
+      <h2>3. 結構偽類 (Structural)</h2>
+      <p>利用數學公式選取元素。</p>
+      <div class="nth-grid">
+        <div class="nth-box">1</div><div class="nth-box">2</div><div class="nth-box">3</div><div class="nth-box">4</div>
+        <div class="nth-box">5</div><div class="nth-box">6</div><div class="nth-box">7</div><div class="nth-box">8</div>
+        <div class="nth-box">9</div><div class="nth-box">10</div><div class="nth-box">11</div><div class="nth-box">12</div>
+        <div class="nth-box">13</div><div class="nth-box">14</div>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 基礎款 */</span>
+<span class="sel">:first-child</span> { ... } <span class="cmmt">/* 第一個 */</span>
+<span class="sel">:last-child</span> { ... }  <span class="cmmt">/* 最後一個 */</span>
+
+<span class="cmmt">/* 奇偶數 */</span>
+<span class="sel">:nth-child(odd)</span> { ... }  <span class="cmmt">/* 1, 3, 5... */</span>
+<span class="sel">:nth-child(even)</span> { ... } <span class="cmmt">/* 2, 4, 6... */</span>
+
+<span class="cmmt">/* 公式：an + b (n 從 0 開始) */</span>
+<span class="sel">:nth-child(4n)</span> { 
+  <span class="prop">background</span>: <span class="val">purple</span>; 
+} <span class="cmmt">/* 選取第 4, 8, 12... 個元素 */</span>
+
+<span class="sel">:nth-child(3n + 1)</span> { ... } <span class="cmmt">/* 選取第 1, 4, 7... 個元素 */</span></pre>
+      </details>
+    </section>
+
+    <!-- 4. State -->
+    <section id="sel-state">
+      <h2>4. 狀態偽類 (UI State)</h2>
+      <div class="state-demo">
+        <form onsubmit="return false;">
+          <input type="text" placeholder="Focus me (變色)" required>
+          <input type="text" placeholder="Disabled input" disabled>
+          <label style="cursor: pointer;">
+            <input type="checkbox"> <span>Check me (文字變綠)</span>
+          </label>
+        </form>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 當使用者點擊或 Tab 進去時 */</span>
+<span class="sel">input:focus</span> { <span class="prop">border-color</span>: <span class="val">blue</span>; }
+
+<span class="cmmt">/* 當 input 有 disabled 屬性時 */</span>
+<span class="sel">input:disabled</span> { <span class="prop">cursor</span>: <span class="val">not-allowed</span>; }
+
+<span class="cmmt">/* Checkbox Hack 的核心：選取被勾選元素 "後面" 的兄弟 */</span>
+<span class="sel">input:checked + span</span> { 
+  <span class="prop">color</span>: <span class="val">green</span>; 
+  <span class="prop">font-weight</span>: <span class="val">bold</span>;
+}
+
+<span class="cmmt">/* 表單驗證狀態 */</span>
+<span class="sel">input:required</span> { ... } <span class="cmmt">/* 必填 */</span>
+<span class="sel">input:valid</span> { ... }    <span class="cmmt">/* 格式正確 */</span>
+<span class="sel">input:invalid</span> { ... }  <span class="cmmt">/* 格式錯誤 */</span></pre>
+      </details>
+    </section>
+
+    <!-- 5. Pseudo-elements -->
+    <section id="sel-pseudo">
+      <h2>5. 偽元素 (Pseudo-elements)</h2>
+      <div class="pseudo-elem-demo">
+        <p>
+          Lorem ipsum dolor sit amet. 選取這段文字看看效果 (Selection)。
+          這段文字的第一行樣式不同 (First-line)，且第一個字母超大 (First-letter)。
+        </p>
+        <ul class="marker-demo">
+          <li>自訂列表符號 (::marker)</li>
+          <li>使用 content 屬性</li>
+        </ul>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 選取第一個字母 (常用於報紙排版) */</span>
+<span class="sel">p::first-letter</span> { 
+  <span class="prop">font-size</span>: <span class="val">2em</span>; 
+  <span class="prop">float</span>: <span class="val">left</span>; 
+}
+
+<span class="cmmt">/* 選取第一行 (會隨容器寬度自動調整) */</span>
+<span class="sel">p::first-line</span> { <span class="prop">color</span>: <span class="val">grey</span>; }
+
+<span class="cmmt">/* 改變反白選取時的顏色 */</span>
+<span class="sel">::selection</span> { 
+  <span class="prop">background</span>: <span class="val">pink</span>; 
+  <span class="prop">color</span>: <span class="val">white</span>; 
+}
+
+<span class="cmmt">/* 修改 li 的圓點樣式 */</span>
+<span class="sel">li::marker</span> { <span class="prop">content</span>: <span class="val">"👉 "</span>; }</pre>
+      </details>
+    </section>
+
+    <!-- 6. Logic (New) -->
+    <section id="sel-logic">
+      <h2>6. 現代邏輯偽類 (:is, :where, :has, :not)</h2>
+      <div class="logic-demo logic-list">
+        <h3>:not() 否定邏輯</h3>
+        <button class="primary">Primary Button</button>
+        <button>Other Button (Opacity 0.6)</button>
+
+        <h3>:has() 父層選取器 (最強大！)</h3>
+        <div class="card">
+          <label><input type="checkbox"> 勾選我，卡片變綠色</label>
+        </div>
+        <div class="card">
+          <label>普通卡片</label>
+        </div>
+        <div class="card">
+          <button class="delete">Hover Delete (卡片變紅)</button>
+        </div>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 1. 否定選取 (:not) */</span>
+<span class="sel">button:not(.primary)</span> { 
+  <span class="prop">opacity</span>: <span class="val">0.6</span>; 
+} <span class="cmmt">/* 除了 .primary 以外的所有按鈕都變半透明 */</span>
+
+<span class="cmmt">/* 2. 父層選取 (:has) - 這是 CSS 的革命性功能 */</span>
+<span class="cmmt">/* 邏輯：選取 .card，但前提是它"擁有"一個被 checked 的 input */</span>
+<span class="sel">.card:has(input:checked)</span> { 
+  <span class="prop">background</span>: <span class="val">#f0fdf4</span>; 
+  <span class="prop">border-color</span>: <span class="val">green</span>; 
+}
+
+<span class="cmmt">/* 邏輯：選取 .card，但前提是它"擁有"一個正在被 Hover 的 .delete 按鈕 */</span>
+<span class="sel">.card:has(.delete:hover)</span> { 
+  <span class="prop">background</span>: <span class="val">red</span>; 
+}</pre>
+      </details>
+    </section>
+
+    <!-- 7. Specificity -->
+    <section id="specificity">
+      <h2>7. 權重競技場 (Specificity Arena)</h2>
+      <p>ID > Class > Element。內聯樣式 (Inline) 最高，!important 無視規則。</p>
+      
+      <div class="spec-battle">
+        <div class="spec-card">
+          <span class="spec-score">Score: 1,0,0</span>
+          <div id="id-wins" class="class-loses">
+            我有 ID (#id-wins) 和 Class (.class-loses)。<br>
+            即使 Class 寫在後面，ID 還是贏了 (藍色)。
+          </div>
+        </div>
+      </div>
+      <div class="spec-visualizer">
+        <div style="display:flex; gap:5px; align-items:flex-end; height: 50px;">
+          <div style="width: 30px; height: 100%; background: var(--primary);" title="ID"></div>
+          <div style="width: 30px; height: 10%; background: var(--error);" title="Class"></div>
+          <div style="width: 30px; height: 1%; background: #ccc;" title="Tag"></div>
+        </div>
+        <small style="color:#64748b">ID 的權重是 Class 的一個量級以上</small>
+      </div>
+    </section>
+
+    <!-- 8. Box Model -->
+    <section id="boxmodel">
+      <h2>8. 盒模型 (Box Model)</h2>
+      <div style="display: flex; justify-content: center;">
+        <div style="background: #fef3c7; padding: 40px; border: 1px dashed orange; position: relative;">
+          <span style="position: absolute; top: 5px; left: 5px; font-size: 12px; color: orange;">Margin</span>
+          <div style="background: #bfdbfe; padding: 40px; border: 4px solid #2563eb; position: relative;">
+            <span style="position: absolute; top: 5px; left: 5px; font-size: 12px; color: #2563eb;">Border</span>
+            <div style="background: #bbf7d0; padding: 40px; position: relative;">
+              <span style="position: absolute; top: 5px; left: 5px; font-size: 12px; color: green;">Padding</span>
+              <div style="background: white; width: 100px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Content</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Flexbox Interactive -->
+    <section id="flexbox">
+      <h2>9. Flexbox 互動實驗室</h2>
+      
+      <!-- Radio State Holders -->
+      <input type="radio" name="fd" id="f-dir-row" class="hack-radio" checked>
+      <input type="radio" name="fd" id="f-dir-col" class="hack-radio">
+      <input type="radio" name="fw" id="f-wrap-no" class="hack-radio" checked>
+      <input type="radio" name="fw" id="f-wrap-yes" class="hack-radio">
+      
+      <input type="radio" name="fj" id="f-jus-start" class="hack-radio" checked>
+      <input type="radio" name="fj" id="f-jus-center" class="hack-radio">
+      <input type="radio" name="fj" id="f-jus-end" class="hack-radio">
+      <input type="radio" name="fj" id="f-jus-between" class="hack-radio">
+      
+      <input type="radio" name="fa" id="f-ali-start" class="hack-radio" checked>
+      <input type="radio" name="fa" id="f-ali-center" class="hack-radio">
+      <input type="radio" name="fa" id="f-ali-end" class="hack-radio">
+      <input type="radio" name="fa" id="f-ali-stretch" class="hack-radio">
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
+        <div class="ctrl-group">
+          <div class="ctrl-title">Flex Direction</div>
+          <div class="ctrl-labels">
+            <label for="f-dir-row">row</label>
+            <label for="f-dir-col">column</label>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="ctrl-title">Flex Wrap</div>
+          <div class="ctrl-labels">
+            <label for="f-wrap-no">nowrap</label>
+            <label for="f-wrap-yes">wrap</label>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="ctrl-title">Justify Content (Main Axis)</div>
+          <div class="ctrl-labels">
+            <label for="f-jus-start">start</label>
+            <label for="f-jus-center">center</label>
+            <label for="f-jus-end">end</label>
+            <label for="f-jus-between">between</label>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="ctrl-title">Align Items (Cross Axis)</div>
+          <div class="ctrl-labels">
+            <label for="f-ali-start">start</label>
+            <label for="f-ali-center">center</label>
+            <label for="f-ali-end">end</label>
+            <label for="f-ali-stretch">stretch</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-box-container">
+        <div class="fb-item">1</div>
+        <div class="fb-item">2</div>
+        <div class="fb-item">3</div>
+        <div class="fb-item">4</div>
+        <div class="fb-item">5</div>
+      </div>
+      
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="cmmt">/* 這是一個使用 Radio Hack 的互動範例 */</span>
+<span class="cmmt">/* HTML: <input type="radio" id="f-dir-col"> ... <div class="container"> */</span>
+
+<span class="cmmt">/* 當 column 被選中時，改變兄弟容器的樣式 */</span>
+<span class="sel">#f-dir-col:checked ~ .container</span> {
+  <span class="prop">flex-direction</span>: <span class="val">column</span>;
+}
+
+<span class="sel">#f-jus-center:checked ~ .container</span> {
+  <span class="prop">justify-content</span>: <span class="val">center</span>;
+}
+
+<span class="cmmt">/* 這種技巧可以讓你不需要寫任何 JS 就能做切換 */</span></pre>
+      </details>
+    </section>
+
+    <!-- 10. Grid -->
+    <section id="grid">
+      <h2>10. Grid 佈局系統 (Grid Areas)</h2>
+      <p>最直觀的二維佈局方式：Grid Template Areas。</p>
+      <div class="grid-area-demo">
+        <div class="ga-box ga-header">Header</div>
+        <div class="ga-box ga-sidebar">Sidebar</div>
+        <div class="ga-box ga-main">Main Content</div>
+        <div class="ga-box ga-footer">Footer</div>
+      </div>
+      <details>
+        <summary>查看 CSS 關鍵實作</summary>
+        <pre>
+<span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="cmmt">/* 定義欄位比例：左邊 1等份，右邊 3等份 */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr 3fr</span>;
+  
+  <span class="cmmt">/* ASCII Art 風格佈局 */</span>
+  <span class="prop">grid-template-areas</span>: 
+    <span class="val">"header header"</span>
+    <span class="val">"sidebar main"</span>
+    <span class="val">"footer footer"</span>;
+}
+
+<span class="cmmt">/* 將子元素指派給對應的區域名稱 */</span>
+<span class="sel">.header-item</span> { <span class="prop">grid-area</span>: <span class="val">header</span>; }
+<span class="sel">.sidebar-item</span> { <span class="prop">grid-area</span>: <span class="val">sidebar</span>; }</pre>
+      </details>
+    </section>
+
+    <!-- 11. Advanced Patterns (Expert) -->
+    <section id="patterns">
+      <h2>11. 專家級實戰 Patterns</h2>
+
+      <!-- Floating Label -->
+      <h3>A. Floating Label (浮動標籤)</h3>
+      <div class="float-group">
+        <input type="text" placeholder=" " required>
+        <label>Username</label>
+      </div>
+      <details>
+        <summary>查看完整實作代碼</summary>
+        <pre>
+<span class="cmmt">&lt;!-- HTML 結構要求：Label 必須在 Input "後面" --&gt;</span>
+<span class="cmmt">&lt;!-- 關鍵：placeholder 不能是空字串，給個空白符 " " 以便 CSS 偵測 --&gt;</span>
+<span class="tag">&lt;div class="group"&gt;</span>
+  <span class="tag">&lt;input type="text" placeholder=" " required&gt;</span>
+  <span class="tag">&lt;label&gt;</span>Username<span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmmt">/* CSS */</span>
+<span class="sel">.group</span> { <span class="prop">position</span>: <span class="val">relative</span>; }
+
+<span class="sel">label</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">top</span>: <span class="val">50%</span>; <span class="cmmt">/* 預設在中間 */</span>
+  <span class="prop">pointer-events</span>: <span class="val">none</span>; <span class="cmmt">/* 讓點擊穿透到 input */</span>
+  <span class="prop">transition</span>: <span class="val">0.2s</span>;
+}
+
+<span class="cmmt">/* 觸發條件：1. Input 被 Focus  OR  2. Input 裡面有字 (非 placeholder 顯示狀態) */</span>
+<span class="sel">input:focus + label</span>,
+<span class="sel">input:not(:placeholder-shown) + label</span> {
+  <span class="prop">top</span>: <span class="val">0</span>;
+  <span class="prop">font-size</span>: <span class="val">0.75rem</span>;
+  <span class="prop">color</span>: <span class="val">blue</span>;
+}</pre>
+      </details>
+
+      <!-- Friendly Validation -->
+      <h3>B. Friendly Validation (友善驗證)</h3>
+      <div style="max-width: 300px;">
+        <input type="email" class="valid-input" placeholder=" " required>
+        <div class="err-msg">請輸入有效的 Email 地址</div>
+      </div>
+      <p style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">試著輸入錯誤的 email 格式然後離開焦點。</p>
+      <details>
+        <summary>查看完整實作代碼</summary>
+        <pre>
+<span class="cmmt">/* 問題：input:invalid 預設一進畫面就會變紅 (因為空字串也是 invalid) */</span>
+<span class="cmmt">/* 解法：利用 :not(:placeholder-shown) 排除掉「還沒打字」的狀態 */</span>
+
+<span class="cmmt">/* 邏輯：(已經有打字) AND (格式不正確) */</span>
+<span class="sel">input:not(:placeholder-shown):invalid</span> {
+  <span class="prop">border-color</span>: <span class="val">red</span>;
+  <span class="prop">background</span>: <span class="val">#fef2f2</span>;
+}
+
+<span class="cmmt">/* 控制錯誤訊息的顯示 */</span>
+<span class="sel">.error-msg</span> { <span class="prop">display</span>: <span class="val">none</span>; }
+
+<span class="sel">input:not(:placeholder-shown):invalid ~ .error-msg</span> {
+  <span class="prop">display</span>: <span class="val">block</span>;
+}</pre>
+      </details>
+
+      <!-- RAM Layout -->
+      <h3>C. RAM Grid Layout</h3>
+      <p>縮放視窗觀察自動斷行 (No Media Queries)。</p>
+      <div class="ram-grid">
+        <div class="ram-item">Auto</div>
+        <div class="ram-item">Fit</div>
+        <div class="ram-item">Min</div>
+        <div class="ram-item">Max</div>
+      </div>
+      <details>
+        <summary>查看完整實作代碼</summary>
+        <pre>
+<span class="cmmt">/* RAM: Repeat, Auto-fit, Minmax */</span>
+<span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">gap</span>: <span class="val">1rem</span>;
+  
+  <span class="cmmt">/* 魔法咒語： */</span>
+  <span class="cmmt">/* 1. minmax(150px, 1fr): 卡片最小 150px，最大佔滿剩餘空間 */</span>
+  <span class="cmmt">/* 2. repeat(auto-fit, ...): 瀏覽器自動計算一行能塞幾個 150px，自動換行 */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(auto-fit, minmax(150px, 1fr))</span>;
+}</pre>
+      </details>
+
+      <!-- Sidebar -->
+      <h3>D. Pure CSS Sidebar</h3>
+      <label for="sidebar-check" class="sidebar-trigger-btn">開啟側邊欄 (Toggle Sidebar)</label>
+      <details>
+        <summary>查看完整實作代碼</summary>
+        <pre>
+<span class="cmmt">&lt;!-- 結構：Checkbox 必須在 Sidebar 之前 --&gt;</span>
+<span class="tag">&lt;input type="checkbox" id="toggle" hidden&gt;</span>
+<span class="tag">&lt;aside class="sidebar"&gt;</span>...<span class="tag">&lt;/aside&gt;</span>
+<span class="tag">&lt;label for="toggle" class="overlay"&gt;</span><span class="tag">&lt;/label&gt;</span>
+
+<span class="cmmt">/* 1. 初始狀態：藏在畫面右側外面 */</span>
+<span class="sel">.sidebar</span> {
+  <span class="prop">position</span>: <span class="val">fixed</span>;
+  <span class="prop">right</span>: <span class="val">-300px</span>; <span class="cmmt">/* 寬度多少就藏多少 */</span>
+  <span class="prop">transition</span>: <span class="val">0.3s</span>;
+}
+
+<span class="cmmt">/* 2. 觸發狀態：當 checkbox 被勾選時，將 sidebar 移回來 */</span>
+<span class="sel">#toggle:checked ~ .sidebar</span> {
+  <span class="prop">right</span>: <span class="val">0</span>;
+}
+
+<span class="cmmt">/* 3. 遮罩層連動 */</span>
+<span class="sel">#toggle:checked ~ .overlay</span> {
+  <span class="prop">opacity</span>: <span class="val">1</span>;
+  <span class="prop">pointer-events</span>: <span class="val">auto</span>;
+}</pre>
+      </details>
+
+      <!-- Scroll Progress -->
+      <h3>E. Scroll Driven Animation</h3>
+      <p>請看頁面最頂部的彩色線條。</p>
+      <details>
+        <summary>查看完整實作代碼</summary>
+        <pre>
+<span class="sel">.progress-bar</span> {
+  <span class="prop">position</span>: <span class="val">fixed</span>;
+  <span class="prop">top</span>: <span class="val">0</span>; 
+  <span class="prop">width</span>: <span class="val">100%</span>;
+  <span class="prop">transform-origin</span>: <span class="val">0%</span>; <span class="cmmt">/* 從左邊開始長 */</span>
+  
+  <span class="cmmt">/* 綁定動畫 */</span>
+  <span class="prop">animation</span>: <span class="val">grow auto linear</span>;
+  <span class="cmmt">/* 關鍵：時間軸綁定捲動軸 (Scroll Timeline) */</span>
+  <span class="prop">animation-timeline</span>: <span class="val">scroll()</span>; 
+}
+
+<span class="sel">@keyframes grow</span> {
+  <span class="prop">from</span> { <span class="prop">transform</span>: <span class="val">scaleX(0)</span>; }
+  <span class="prop">to</span>   { <span class="prop">transform</span>: <span class="val">scaleX(1)</span>; }
+}</pre>
+      </details>
+      
+    </section>
+
+    <!-- 12. JS Rendering -->
+    <section id="js-render">
+      <h2>12. JS 渲染機制實戰 (Height 0 to Auto)</h2>
+      <p>這個範例展示了如何利用 JS 的渲染特性，實現 CSS 做不到的 <code>height: auto</code> 動畫。</p>
+
+      <div class="js-demo-container">
+        <button onclick="toggleHeight()" class="sidebar-trigger-btn" style="background: var(--primary);">
+          切換高度 (Toggle Height)
+        </button>
+        <div class="status-log" id="log" style="margin-top:10px; font-size: 0.85rem; color: #64748b;">等待操作...</div>
+        
+        <div id="accordion" style="margin-top: 15px; background: #e0e7ff; overflow: hidden; height: 0; transition: height 0.4s ease-out; border-radius: 6px;">
+          <div style="padding: 20px;">
+            <h4 style="margin-top:0;">動態內容區域</h4>
+            <p>這裡的內容高度是不固定的。</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>當你點擊按鈕時，JS 會先計算這裡有多高，然後強制瀏覽器從 0 動畫過渡到該高度。</p>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const acc = document.getElementById('accordion');
+        const log = document.getElementById('log');
+        let isOpen = false;
+
+        function toggleHeight() {
+          if (isOpen) {
+            // Close logic
+            // 1. 先把高度設為具體的 px (從 auto 轉為數值，這樣才有辦法 transition)
+            acc.style.height = acc.scrollHeight + 'px';
+            
+            // 2. 強制重排 (Force Reflow) - 關鍵！讓瀏覽器意識到高度已經變成 px 了
+            acc.offsetHeight; 
+
+            // 3. 設定為 0
+            acc.style.height = '0px';
+            log.innerText = 'Closing... (Height set to 0)';
+          } else {
+            // Open logic (你的案例)
+            // 1. 雖然現在是 0，但我們可以讀取 scrollHeight 拿到「如果全開會是多少」
+            //    這會觸發同步 Layout，但不會 Paint (所以畫面不會閃)
+            const targetHeight = acc.scrollHeight;
+            
+            // 2. 設定目標高度
+            acc.style.height = targetHeight + 'px';
+            log.innerText = `Opening... (Calculated height: ${targetHeight}px)`;
+
+            // 3. (Optional) 動畫結束後設回 auto，以應對視窗縮放
+            acc.addEventListener('transitionend', function() {
+              if (isOpen) acc.style.height = 'auto';
+            }, { once: true });
+          }
+          isOpen = !isOpen;
+        }
+      </script>
+
+      <details>
+        <summary>查看 JS 實作代碼</summary>
+        <pre>
+<span class="sel">const</span> <span class="prop">el</span> = <span class="val">element</span>;
+
+<span class="cmmt">// 開啟動畫 (0 -> Auto)</span>
+<span class="cmmt">// 1. 獲取內容的真實高度 (觸發同步 Layout)</span>
+<span class="cmmt">//    使用者看不到這個計算過程，因為 JS 還沒結束，瀏覽器還沒 Paint</span>
+<span class="sel">const</span> <span class="prop">height</span> = <span class="val">el.scrollHeight</span>;
+
+<span class="cmmt">// 2. 設定高度，觸發 CSS Transition</span>
+<span class="val">el.style.height</span> = <span class="prop">height</span> + <span class="val">'px'</span>;
+
+
+<span class="cmmt">// 關閉動畫 (Auto -> 0)</span>
+<span class="cmmt">// 1. 必須先從 'auto' 變回具體的 px 值</span>
+<span class="val">el.style.height</span> = <span class="val">el.scrollHeight</span> + <span class="val">'px'</span>;
+
+<span class="cmmt">// 2. 【關鍵】強制 Reflow，讓瀏覽器確認現在是 px 高度</span>
+<span class="cmmt">//    如果不加這行，瀏覽器會把這兩步合併，導致無法從 auto 過渡</span>
+<span class="val">el.offsetHeight</span>;
+
+<span class="cmmt">// 3. 設定為 0</span>
+<span class="val">el.style.height</span> = <span class="val">'0px'</span>;</pre>
+      </details>
+    </section>
+
+  </main>
+</body>
+</html>
